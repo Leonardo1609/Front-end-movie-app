@@ -1,0 +1,36 @@
+@keyframes showDown {
+    from{
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+
+@keyframes hideUp {
+    from{
+        opacity: 1;
+        transform: translateY(0%);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+}
+
+.show{
+    animation: 500ms showDown ease;
+    animation-fill-mode: forwards;
+}
+.hide{
+    animation: 500ms hideUp ease;
+    animation-fill-mode: forwards;
+}
+
+.noshow{
+   display: none !important;
+}
