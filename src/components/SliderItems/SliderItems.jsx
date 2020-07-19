@@ -5,7 +5,7 @@ import Loading from '../Loading/Loading';
 import ApiContext from '../../context/API/apiContext';
 import { SectionHeading, Slider } from './StyledComponents';
 
-const SliderItems = ({ items, title, url }) => {
+const SliderItems = ({ items, title, url, score }) => {
 
     const apiContext = useContext( ApiContext );
     const{ loading } = apiContext;
@@ -16,19 +16,23 @@ const SliderItems = ({ items, title, url }) => {
                 <span>
                     { title }
                 </span>
-                <Link to = { url }>View All</Link>
+                {
+                    url 
+                    ? <Link to = { url }>View All</Link>
+                    : null
+                }
             </SectionHeading>
             <Slider>
                 { 
                     loading ? <Loading /> :
-                    (items.length > 0 )
+                    ( items.length > 0 )
                     ? 
 
                     items.map( item => (
                         <Card
                             key = { item.id }
                             item = { item }
-                            score = { item.score ? item.score : null }
+                            score = { item.score && score ? item.score : null }
                         />
                     ))
                     : 

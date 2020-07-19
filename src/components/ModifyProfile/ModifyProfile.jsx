@@ -1,50 +1,61 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { useHistory } from 'react-router-dom';
 import AuthContext from '../../context/Auth/authContext';
 import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 import { FormSettings } from './StyledComponents';
 import arrayMove from 'array-move';
 import DragCard from './DragItem';
-import Modal from '@material-ui/core/Modal';
-import { makeStyles } from '@material-ui/core/styles';
+import { FavoritesContext } from './context/FavoritesContext';
+import Loading from './../Loading/Loading';
 
-const SortableItem = SortableElement(({value}) => <li  style = {{ listStyle : 'none' }}>{value}</li>);
+const SortableItem = SortableElement(({ value, sortIndex }) => 
+    <li style = {{ listStyle : 'none' }}>
+        {/* Styled Component */}
+        <DragCard item = { value } index = { sortIndex } />
+    </li>
+);
 
-const SortableList = SortableContainer(({items}) => {
+const SortableList = SortableContainer(({ items }) => {
     return (
       <ul className = "list-favorites" >
         {items.map( ( item, i ) => (
-          <SortableItem key={ i } index={ i } value={ item } />
+          <SortableItem key={ i } index = { i } value={ item } sortIndex={ i } />
         ))}
       </ul>
     );
   });
 
-const ModifyProfile = () => {
-    
-    const history = useHistory();
-
-    const[ state, setState ]  = useState({
-        items: [<DragCard/>, <DragCard/>, <DragCard/>, <DragCard/>],
-      });
-
-    const onSortEnd = ({oldIndex, newIndex}) => {
-        setState(({items}) => ({
-          items: arrayMove(items, oldIndex, newIndex),
-        }));
-    };
-      
-
-    const authContext = useContext( AuthContext );
-    const { user, updateUser } = authContext;
+const ModifyProfile = ( ) => {
 
     const [ userupdated, setUserUpdated ] = useState({
         username: '',
         email: '',
-        biography: ''
+        biography: '',
+        favorites: []
     });
     
+    
+    const favoritesContext = useContext( FavoritesContext );
+    const { favoritesItems, setFavoritesItems } = favoritesContext;
+    
+    const authContext = useContext( AuthContext );
+    const { user, loading, updateUser } = authContext;
+    
+    /*Inicializo mi state con un arreglo, para que no me de un error en el map del sortableList,
+    sin embargo, también se inicializará con 4 objetos, ya que en el useEffect el state se
+    modifica con los favoritesItems y este ya contiene 4 objetos, que pueden ser los favoritos del 
+    usuario u objetos vacíos */
+    const[ favs, setFavs ]  = useState([]);
 
+    let favsTemp = [ ...favs ];  
+    
+    const onSortEnd = ({ oldIndex, newIndex }) => {
+        favsTemp = arrayMove( favsTemp, oldIndex, newIndex );
+        // Actualizo mi state con el nuevo orden de los items favoritos
+        setFavs( favsTemp );
+        // Actualizo mi favorites context con el nuevo orden de los items favoritos
+        setFavoritesItems( favsTemp );
+    };
+      
     const { username, email, biography } = userupdated;
     
     const onChange = e => {
@@ -56,26 +67,41 @@ const ModifyProfile = () => {
 
     const onSubmit = e => {
         e.preventDefault();
+        // In here I append the avatar image and then send this to the backend
         const formData = new FormData();
+        // If input file have files
         if ( e.target.children[0].children[7].files[0] ){
             formData.append( "image", e.target.children[0].children[7].files[0] );
             updateUser( userupdated, formData );
+        } else{
+            updateUser( userupdated );
         }
-        updateUser( userupdated );
-
-        history.push( `/profile/${ user.username }` );
     };
 
     useEffect(() => {
-        if( user ){
-            setUserUpdated( user )
+        if( user  ){
+            // Inicializo mi state de usuario con los datos del usuario que obtengo del authContext
+            // y los favs del state 
+            setUserUpdated({ 
+                ...user, 
+                "favorites": favs 
+            });
+            
+            // Inicializo mi state de favs con los items favoritos del usuario
+            setFavs( favoritesItems );
         }
-    }, [ user ] );
+
+    }, [ user, favs, favoritesItems ] );
 
     return (
         <div className = "container">
             <h2 style = {{ marginTop: "3rem" }}>Account Settings</h2>
-                <FormSettings onSubmit = { onSubmit }>
+                {
+                    loading ?
+                    <Loading />
+                    :null
+                }
+                <FormSettings onSubmit = { onSubmit } method = "POST">
                     <div className = "inputs-form">
                         <label htmlFor="username">Username</label>
                         <input 
@@ -110,7 +136,10 @@ const ModifyProfile = () => {
                             user ? 
                                 user.image
                                 ? 
-                                <img alt = { user.username } className = "avatar-image" src= {require(`../../../../backend-movieapp/src/public/img/profiles/${ user.image }`)}/>
+                                <img 
+                                    alt = { user.username } 
+                                    className = "avatar-image" 
+                                    src= {require(`../../../../backend-movieapp/src/public/img/profiles/${ user.image }`)}/>
                                 :
                                 <p>No hay imagen actual</p> 
                             :null
@@ -124,9 +153,9 @@ const ModifyProfile = () => {
                         <h4>Favorites</h4>
                         <SortableList    
                             distance={1} // para poder usar el evento onClick y hacer use del drag and drop
-                            items={ state.items } 
+                            items={ favsTemp } 
                             onSortEnd={ onSortEnd } 
-                            axis = "x"
+                            axis = "xy"
                         />
                     </aside>
                 </FormSettings>

@@ -1,4 +1,4 @@
-import { CREATE_USER, GET_USER, SIGN_OUT, LOGIN_USER, GET_REGISTERS, UPDATE_USER} from "../../types"
+import { CREATE_USER, GET_USER, SIGN_OUT, LOGIN_USER, GET_REGISTERS, UPDATE_USER } from "../../types"
 
 export const AuthReducer = (state , action) => {
     switch ( action.type ) {
@@ -13,7 +13,8 @@ export const AuthReducer = (state , action) => {
         case UPDATE_USER:
             return{
                 ...state,
-                user: action.payload.user
+                user: action.payload.user,
+                loading: false
             }
         case GET_USER:
             return{

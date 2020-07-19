@@ -11,7 +11,7 @@ const AuthState = props => {
         token: localStorage.getItem('token'),
         authenticated: false,
         user: null,
-        registers: null
+        registers: null,
     }
 
     const [ state, dispatch ] = useReducer( AuthReducer, initialState )
@@ -78,12 +78,13 @@ const AuthState = props => {
                     }
                 });
                 const dataPromise = clientAxios.post('/api/users/edit-user', data );
-                                             // ambos regresan al usuario, pero segundo lo regresa sin imagen
+                                             // ambos regresan al usuario, pero el segundo lo regresa sin imagen
                 result = await Promise.all([ imagePromise, dataPromise ]);
                 dispatch({
                     type: UPDATE_USER,
                     payload: result[0].data
                 })
+
             }
             else{
                 result = await clientAxios.post('/api/users/edit-user', data );
@@ -92,7 +93,6 @@ const AuthState = props => {
                     payload: result.data
                 })
             }
-            
         }catch( error ){
             console.log( error.response );
         }

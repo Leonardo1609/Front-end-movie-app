@@ -15,7 +15,6 @@ const Profile = ({ match }) => {
         // eslint-disable-next-line
     }, [ match ] );
 
-
     return ( 
         <div className = "container">
             <ProfileHeader />

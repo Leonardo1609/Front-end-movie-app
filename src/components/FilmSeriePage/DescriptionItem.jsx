@@ -14,8 +14,7 @@ const DescriptionItem = ({ type, match }) => {
     const active = {
         color: "#FFFFFF",   
     }
-
-    
+  
     return (  
         <DescriptionBody>
                 <div className = "list-container">

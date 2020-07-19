@@ -4,7 +4,7 @@ import ApiContext from '../../context/API/apiContext';
 import AuthContext from '../../context/Auth/authContext';
 import { LogContainer } from './StyledComponents';
 
-const Log = ({ type, name }) => {
+const Log = ({ itemType, name }) => {
     
 
     const profileContext = useContext( ProfileContext );
@@ -25,7 +25,7 @@ const Log = ({ type, name }) => {
                 modifyRegister( item._id, {
                     ...item,
                     name,
-                    type,
+                    itemType,
                     id: itemselected.id,
                     poster_path: itemselected.poster_path,
                     watched: false,
@@ -38,7 +38,7 @@ const Log = ({ type, name }) => {
                 modifyRegister( item._id, {
                     ...item,
                     name,
-                    type,
+                    itemType,
                     id: itemselected.id,
                     poster_path: itemselected.poster_path,
                     watched: true
@@ -47,7 +47,7 @@ const Log = ({ type, name }) => {
         } else {
             postRegister({
                 name,
-                type,
+                itemType,
                 id: itemselected.id,
                 poster_path: itemselected.poster_path,
                 watched: true
@@ -64,7 +64,7 @@ const Log = ({ type, name }) => {
                 modifyRegister( item._id, {
                     ...item,
                     name,
-                    type,
+                    itemType,
                     id: itemselected.id,
                     poster_path: itemselected.poster_path,
                     liked: false
@@ -73,7 +73,7 @@ const Log = ({ type, name }) => {
                 modifyRegister( item._id, {
                     ...item,
                     name,
-                    type,
+                    itemType,
                     id: itemselected.id,
                     poster_path: itemselected.poster_path,
                     liked: true,
@@ -83,7 +83,7 @@ const Log = ({ type, name }) => {
         } else {
             postRegister({
                 name,
-                type,
+                itemType,
                 id: itemselected.id,
                 poster_path: itemselected.poster_path,
                 liked: true,
@@ -101,7 +101,7 @@ const Log = ({ type, name }) => {
                 modifyRegister( item._id, {
                     ...item,
                     name,
-                    type,
+                    itemType,
                     id: itemselected.id,
                     poster_path: itemselected.poster_path,
                     watchlist: false
@@ -112,7 +112,7 @@ const Log = ({ type, name }) => {
                 modifyRegister( item._id, {
                     ...item,
                     name,
-                    type,
+                    itemType,
                     id: itemselected.id,
                     poster_path: itemselected.poster_path,
                     watchlist: true
@@ -121,7 +121,7 @@ const Log = ({ type, name }) => {
         } else {
             postRegister({
                 name,
-                type,
+                itemType,
                 id: itemselected.id,
                 poster_path: itemselected.poster_path,
                 watchlist: true
@@ -137,7 +137,7 @@ const Log = ({ type, name }) => {
                 modifyRegister( item._id, {
                     ...item,
                     name,
-                    type,
+                    itemType,
                     id: itemselected.id,
                     poster_path: itemselected.poster_path,
                     watched: true,
@@ -147,7 +147,7 @@ const Log = ({ type, name }) => {
                 modifyRegister( item._id, {
                     ...item,
                     name,
-                    type,
+                    itemType,
                     id: itemselected.id,
                     poster_path: itemselected.poster_path,
                     watched: true,
@@ -157,7 +157,7 @@ const Log = ({ type, name }) => {
         } else {
             postRegister({
                 name,
-                type,
+                itemType,
                 id: itemselected.id,
                 poster_path: itemselected.poster_path,
                 watched: true,
@@ -173,7 +173,7 @@ const Log = ({ type, name }) => {
                 modifyRegister( item._id, {
                     ...item,
                     name,
-                    type,
+                    itemType,
                     id: itemselected.id,
                     poster_path: itemselected.poster_path,
                     watched: true,

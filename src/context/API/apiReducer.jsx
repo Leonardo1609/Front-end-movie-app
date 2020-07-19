@@ -81,7 +81,7 @@ export const ApiReducer = (state, action) => {
             return{
                 ...state,
                 movies: [],
-                shows: []
+                shows: []            
             }
         case LOADING:
             return{

@@ -69,9 +69,8 @@ const FilmPage = ({ match }) => {
                          rgba(6.06%, 6.06%, 6.06%, 0.84) 100% )`;
                 }
             },1
-        )
+        );
     }
-
 
     useEffect(() => {
         setLoading( true );
@@ -118,7 +117,7 @@ const FilmPage = ({ match }) => {
                                             <p className = "overview-content">{ itemselected.overview }</p>
                                             
                                             <DescriptionItem 
-                                                type = "film"
+                                                itemType = "film"
                                                 match = { match.params.option }
                                             />
                                         </div>
@@ -137,7 +136,7 @@ const FilmPage = ({ match }) => {
                                         >Sign in to log, rate or review</button>
                                     </div>
                                     : <Log 
-                                        type = "movie"
+                                        itemType = "movie"
                                         name = { itemselected.title } />
                                 :null
                             }    

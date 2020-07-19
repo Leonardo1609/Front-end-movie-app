@@ -47,7 +47,7 @@ const AiringShows = () => {
 
             <Films>
                 { loading ? <Loading /> :
-                 (shows.length > 0 )
+                 ( shows.length > 0 )
                     ? 
 
                     shows.map( show => (

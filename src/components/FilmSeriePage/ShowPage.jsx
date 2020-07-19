@@ -119,7 +119,7 @@ const ShowPage = ({ match }) => {
                                             <p className = "release-date"><span>Release date</span>: { itemselected.first_air_date }</p>
                                             
                                             <DescriptionItem 
-                                                type = "show"
+                                                itemType = "show"
                                                 match = { match.params.option }
                                             />
 
@@ -139,7 +139,7 @@ const ShowPage = ({ match }) => {
                                         >Sign in to log, rate or review</button>
                                     </div>
                                     : <Log 
-                                        type = "tv" 
+                                        itemType = "tv" 
                                         name = { itemselected.name }
                                         />
                                 :null

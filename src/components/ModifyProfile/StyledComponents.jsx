@@ -50,7 +50,8 @@ export const FormSettings = styled.form`
         }
         .avatar-image{
             margin-top: 1rem;
-            max-width: 100%;
+            max-width: 150px;
+            margin-left: calc(50% - 75px);
         }
         .buttons{
             margin: 2rem 0 4rem 0;
@@ -112,7 +113,6 @@ export const FavoriteItem = styled.div`
     border-radius: 3px;
     cursor: move;
     position: relative;
-
     &::after{
         content: '\f055';
         font-family: FontAwesome;
@@ -120,5 +120,69 @@ export const FavoriteItem = styled.div`
         top: 42%;
         left: 45%;
         color: #89a;
+    }
+
+    button{
+        position: absolute;
+        right: -10px;
+        top: -10px;
+        border-radius: 50%;
+        color: white;
+        background-color: #456;
+        outline: none;
+        border: none;
+        cursor: pointer;
+        font-size: .9rem;
+    }
+`;
+
+export const ModalContainer = styled.div`
+    h4{
+        text-transform: uppercase;
+        font-weight: 400;
+    }
+    div{
+        label{
+            display:block;
+            width: 100%;
+            font-size: .8rem;
+            margin-bottom: .5rem;
+        }
+
+        input[ type = "text" ]{
+            width:100%;
+            width:100%;
+            position:relative;
+            padding: 7px 5px;
+            box-sizing: border-box;
+        }
+
+        ul{
+            top: 124px;
+            position:absolute;
+            list-style:none;
+            padding: 0;
+            max-width: 350px;
+            min-width: 350px;
+            max-height: 200px;
+            overflow-y: scroll;
+            li{
+                cursor: pointer;
+                padding: 5px 10px;
+                color: #fff;
+                background: #3e4a61;
+                font-size: .8rem;
+                letter-spacing: .8px;
+                &:hover{
+                    background: #00b020;
+                }
+
+                .item-category{
+                    font-size: .6rem;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                }
+            }
+        }
     }
 `;

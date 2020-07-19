@@ -13,6 +13,7 @@
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
     "fast-average-color": "^6.0.2",
+    "fs": "0.0.1-security",
     "moment": "^2.26.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
