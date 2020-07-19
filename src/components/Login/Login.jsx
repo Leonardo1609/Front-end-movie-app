@@ -124,6 +124,7 @@ const Login = () => {
     <FormLogin 
         className = { click ? ( login ? 'show' : 'hide' ) : 'noshow' } 
         onSubmit = { onSubmit }
+        method = "POST"
     >
         <button type = "button" className = "close" onClick = { () => showLogin(false, true) }>
             <i className="fas fa-times"></i>

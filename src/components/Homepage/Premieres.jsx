@@ -20,7 +20,7 @@ const Premieres = () => {
     return (
         <div className = "container" style = {{ marginTop: "60px" }}>
             <SliderItems 
-                title = { 'Premieres '}
+                title = { 'Premieres' }
                 items = { movies.slice(0,6) }
                 url = { "/premieres-films" }
             />

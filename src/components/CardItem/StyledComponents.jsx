@@ -27,3 +27,51 @@ export const Name = styled.div`
         border-bottom:8px solid transparent;
     }
 `;
+
+export const CardContainer = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-right: 4px;
+    background-color: #2c3440;
+    border-radius: 10px;
+    border: 3px solid transparent; 
+
+    &:hover > .name{
+        display: block;
+    }
+
+    &:hover {
+        border: 3px solid #00e054;
+    }
+
+    a{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        text-decoration: none;
+        width: 100%;
+        height: 100%;
+    
+        span{
+            max-width: 150px;
+            padding: 0 10px;
+            overflow: hidden;
+        }
+
+        img{
+            height: 100%;
+            width: 100%;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+
+            span{
+                margin-top: 8px;
+            }
+        }
+    }
+`;

@@ -11,6 +11,7 @@ const ShowsAiring = () => {
     useEffect( () => {
         setLoading( true );
         getShowsInAiring(1);
+        
         return () => resetState();
         // eslint-disable-next-line
     },[] ) 

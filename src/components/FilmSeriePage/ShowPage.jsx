@@ -139,7 +139,7 @@ const ShowPage = ({ match }) => {
                                         >Sign in to log, rate or review</button>
                                     </div>
                                     : <Log 
-                                        type = "tv" 
+                                        itemType = "tv" 
                                         name = { itemselected.name }
                                         />
                                 :null

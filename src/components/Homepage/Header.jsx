@@ -1,127 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import styles from './Header.module.css';
 import { Link, useHistory } from 'react-router-dom';
 import Login from '../Login/Login';
-
+import { Linksform } from './StyledComponents';
 import LoginContext from '../../context/Login/loginContext';
 import ApiContext from '../../context/API/apiContext';
 import AuthContext from '../../context/Auth/authContext';
-
-
-const Linksform = styled.div`
-    display: flex;
-    align-items: center;
-    ul{
-        list-style: none;
-        position: relative;
-        height: 72px;
-        display: flex;
-        align-items: center;
-        padding-left: 0;
-        li{
-            a,button{
-                cursor: pointer;
-                text-decoration: none;
-                color: inherit;
-                margin-right: 20px;
-                text-transform: uppercase;
-                font-size: .81rem; 
-                padding: 5px 10px;
-                font-weight: bold;
-                background: none;
-                border: none;
-                outline: none;
-                cursor: pointer;
-
-                &:hover{
-                    color: white;
-                }
-            }
-        }
-    }
-    
-    .movies li,
-    .series li {
-        position: relative;
-        cursor: pointer;
-
-        .drop-menu{
-            list-style: none;
-            position: absolute; 
-            top: 23px;
-            left: 0px;
-            width: 220px;
-            display: none;
-            flex-direction: column;
-            justify-content: start;
-
-            li{
-
-                &:hover .drop-menu{
-                    background-color:#2c3440;
-                }
-
-                a{
-                    display: block;
-                    background-color: #89a;
-                    text-transform: unset;
-                    padding: 10px;  
-                    width: 91%;
-                    text-align: start;
-                    &:hover{
-                        background-color:#2c3440;
-                    }
-                }
-
-                button{
-                    display: block;
-                    background-color: #89a;
-                    text-transform: unset;
-                    padding: 10px;  
-                    width: 100%;
-                    text-align: start;
-                    &:hover{
-                        background-color:#2c3440;
-                    }
-                }
-            }
-        
-        }
-    }
-
-    .movies li:hover .drop-menu-movies{
-        display: block;    
-    }
-    .series li:hover .drop-menu-series{
-        display: block;    
-    }
-    
-    .movies > li:hover > a{
-        background-color: #89a;
-        border-radius: 4px 4px 0 0;
-        color: white;
-    }
-    .series > li:hover > a{
-        background-color: #89a;
-        border-radius: 4px 4px 0 0;
-        color: white;
-    }
-
-    .search{
-        input[ type ="text" ]
-        {
-            width: 130px;
-            height: 20px;
-            border-radius: 10px;
-            border: none;
-            outline: none;
-            padding: 5px 10px;
-            font-size: .81rem;
-        }
-    }
-`;
- 
+import { FavoritesContext } from '../ModifyProfile/context/FavoritesContext';
 
 const Header = () => {
 
@@ -134,6 +18,9 @@ const Header = () => {
     const authContext = useContext( AuthContext );
     const { authenticated, user,
             getUser, getRegistersAuth, signOut } = authContext;
+
+    const favoritesContext = useContext( FavoritesContext );
+    const { cleanFavorites } = favoritesContext;
 
     const [ search, setSearch ] = useState({
         item: ''
@@ -158,12 +45,8 @@ const Header = () => {
         setSearch({
             item: ''
         })
+        // Every where a search is done it will stars from page 1
         changePage( 1 );
-    }
-
-    const closeSesion = () => {
-        signOut();
-        history.push('/');
     }
 
     useEffect( () => {
@@ -181,10 +64,12 @@ const Header = () => {
                     <Link 
                         to = "/" 
                         className = "logo" 
+                        onClick = { cleanFavorites }
                     >MovieApp</Link>
                 </div>
                 <Linksform>
-                    <ul>        
+                    <ul> 
+                        {/* Formulario dropdown de Login */}
                         <Login />
                         {!authenticated || !user    
                         ?   
@@ -194,21 +79,36 @@ const Header = () => {
                             >Sign In</button>
                         </li>
                         :<li>
-                            <ul className = "series">
+                            <ul className = "profile">
                                 <li>
-                                    <button
-                                        className = { styles['link-header'] }
-                                    >{ user.username }</button>
-                                    <ul className = 'drop-menu drop-menu-series'>
+                                    <div className = 'avatar-profile'>
+                                        <img 
+                                            src={
+                                            user.image 
+                                            ?
+                                                require(`../../../../backend-movieapp/src/public/img/profiles/${ user.image }`)
+                                            :
+                                                'https://s.ltrbxd.com/static/img/avatar1000.71ae0671.png'
+                                            } alt={ user.username }/>
+                                        <div
+                                            className = "not-container"
+                                        >{ user.username } <i 
+                                            className ="fas fa-chevron-down"
+                                            ></i>
+                                        </div>
+                                    </div>
+                                    <ul className = 'drop-menu drop-menu-profile'>
                                         <li>
                                             <Link
                                                 to = {`/profile/${ user.username }`}
+                                                onClick = { cleanFavorites }
                                             >Profile</Link>
                                         </li>
                                         <li>
-                                            <button
-                                                onClick = { closeSesion }
-                                            >Sign Out</button>
+                                            <Link
+                                                to = '/'
+                                                onClick = { signOut }
+                                            >Sign Out</Link>
                                         </li>
                                     </ul>
                                 </li>
@@ -228,18 +128,20 @@ const Header = () => {
                         <li>
                             <ul className = "movies">
                                 <li>
-                                    <button 
-                                        className = { styles['link-header'] }
-                                    >Movies</button>
+                                    <div >Movies</div>
                                     <ul className = 'drop-menu drop-menu-movies'>
                                         <li>
                                             <Link
                                                 to = "/top-movies"
+                                                onClick = { cleanFavorites }
                                             >Top IMDB Ranked Movies</Link>
                                         </li>
                                         <li>
                                             <Link
-                                                onClick = { () => changePage( 1 ) } 
+                                                onClick = { () => {
+                                                    changePage( 1 );
+                                                    cleanFavorites();
+                                                } } 
                                                 to = "/premieres-films" 
                                             >Premieres</Link>
                                         </li>
@@ -251,18 +153,20 @@ const Header = () => {
                         <li>
                             <ul className = "series">
                                 <li>
-                                    <button
-                                        className = { styles['link-header'] }
-                                    >Series</button>
+                                    <div>Series</div>
                                     <ul className = 'drop-menu drop-menu-series'>
                                         <li>
                                             <Link
                                                 to = "/top-shows"
+                                                onClick = { cleanFavorites }
                                             >Top IMDB Ranked TV Shows</Link>
                                         </li>
                                         <li>
                                             <Link
-                                                onClick = { () => changePage( 1 ) } 
+                                                onClick = {() => { 
+                                                    changePage( 1 );
+                                                    cleanFavorites();
+                                                }} 
                                                 to = "/tv-air" 
                                             >Airing</Link>
                                         </li> 

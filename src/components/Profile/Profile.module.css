@@ -1,0 +1,7 @@
+.favs-ratings{
+    display:flex;
+}
+
+.favs-ratings .favs{
+    flex: 0 0 60%;
+}
