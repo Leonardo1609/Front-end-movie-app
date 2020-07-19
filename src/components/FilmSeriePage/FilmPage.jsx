@@ -117,7 +117,7 @@ const FilmPage = ({ match }) => {
                                             <p className = "overview-content">{ itemselected.overview }</p>
                                             
                                             <DescriptionItem 
-                                                itemType = "film"
+                                                type = "film"
                                                 match = { match.params.option }
                                             />
                                         </div>
@@ -136,7 +136,7 @@ const FilmPage = ({ match }) => {
                                         >Sign in to log, rate or review</button>
                                     </div>
                                     : <Log 
-                                        itemType = "movie"
+                                        type = "movie"
                                         name = { itemselected.title } />
                                 :null
                             }    
