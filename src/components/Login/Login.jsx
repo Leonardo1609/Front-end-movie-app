@@ -8,11 +8,22 @@ import AuthContext from '../../context/Auth/authContext';
 const FormLogin = styled.form`
     position: absolute;
     display: flex; 
+    flex-direction: column;    
     background-color: rgba(20, 24, 28, 0.9);
     z-index: 1000;
-    padding: 10px 35px 10px 20px;
-    height: 56px;
-    top: 0;
+    padding: 10px 35px;
+    height: 200px;
+    width: 90%;
+    left: 0;
+    top: 80px;
+    @media ( min-width: 768px ){
+        width: unset;
+        top: 0;
+        right: unset;
+        flex-direction: row;
+        padding: 10px 35px 10px 20px;
+        height: 56px;
+    }
     
     .close{
         border: none;
@@ -22,9 +33,13 @@ const FormLogin = styled.form`
         margin-right: 15px;
         margin-top: 16px;
         cursor: pointer;
+        display: none;
 
         &:hover{
           color: white;  
+        }
+        @media ( min-width: 768px ){
+            display: block;
         }
     }
     div{
@@ -39,26 +54,33 @@ const FormLogin = styled.form`
             font-size: .8rem;
             text-align: left;
             margin-bottom: 3px;
+
         }
         input[ type = "email"]{
             font-size: .9rem;
-            width: 170px;
+            width: 90%;
             height: 18px;
             padding: 5px 7px;
             border-radius: 5px;
             border:none;
             outline: none;
+            @media ( min-width: 768px ){
+                width: 170px;
+            }
         }
 
         input[ type = "password"]
         {
             font-size: .9rem;
-            width: 134px;
+            width: 90%;
             height: 18px;
             padding: 5px 7px;
             border-radius: 5px;
             border:none;
             outline: none;
+            @media ( min-width: 768px ){
+                width: 134px;
+            }
         }
 
         button{

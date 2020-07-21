@@ -1,11 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react'
 import AuthContext from '../../context/Auth/authContext';
 import {SortableContainer, SortableElement} from 'react-sortable-hoc';
-import { FormSettings } from './StyledComponents';
+import { FormSettings, AcountSettingsTitle } from './StyledComponents';
 import arrayMove from 'array-move';
 import DragCard from './DragItem';
 import { FavoritesContext } from './context/FavoritesContext';
-import Loading from './../Loading/Loading';
 
 const SortableItem = SortableElement(({ value, sortIndex }) => 
     <li style = {{ listStyle : 'none' }}>
@@ -38,7 +37,7 @@ const ModifyProfile = ( ) => {
     const { favoritesItems, setFavoritesItems } = favoritesContext;
     
     const authContext = useContext( AuthContext );
-    const { user, loading, updateUser } = authContext;
+    const { user, updateUser } = authContext;
     
     /*Inicializo mi state con un arreglo, para que no me de un error en el map del sortableList,
     sin embargo, también se inicializará con 4 objetos, ya que en el useEffect el state se
@@ -48,7 +47,8 @@ const ModifyProfile = ( ) => {
 
     let favsTemp = [ ...favs ];  
     
-    const onSortEnd = ({ oldIndex, newIndex }) => {
+    const onSortEnd = ({ oldIndex, newIndex } ,e ) => {
+        e.preventDefault();
         favsTemp = arrayMove( favsTemp, oldIndex, newIndex );
         // Actualizo mi state con el nuevo orden de los items favoritos
         setFavs( favsTemp );
@@ -71,7 +71,8 @@ const ModifyProfile = ( ) => {
         const formData = new FormData();
         // If input file have files
         if ( e.target.children[0].children[7].files[0] ){
-            formData.append( "image", e.target.children[0].children[7].files[0] );
+            // 'image' for the multer config
+            formData.set( "image", e.target.children[0].children[7].files[0] );
             updateUser( userupdated, formData );
         } else{
             updateUser( userupdated );
@@ -95,12 +96,7 @@ const ModifyProfile = ( ) => {
 
     return (
         <div className = "container">
-            <h2 style = {{ marginTop: "3rem" }}>Account Settings</h2>
-                {
-                    loading ?
-                    <Loading />
-                    :null
-                }
+                <AcountSettingsTitle>Account Settings</AcountSettingsTitle>
                 <FormSettings onSubmit = { onSubmit } method = "POST">
                     <div className = "inputs-form">
                         <label htmlFor="username">Username</label>
@@ -144,10 +140,7 @@ const ModifyProfile = ( ) => {
                                 <p>No hay imagen actual</p> 
                             :null
                         }
-                        <div className = "buttons">
-                            <input type="submit" value="Save Changes"/>
-                            <button>Change Password</button>
-                        </div>
+                        
                     </div>
                     <aside className = "favorites">
                         <h4>Favorites</h4>
@@ -158,6 +151,10 @@ const ModifyProfile = ( ) => {
                             axis = "xy"
                         />
                     </aside>
+                    <div className = "buttons">
+                        <input type="submit" value="Save Changes"/>
+                        <button>Change Password</button>
+                    </div>
                 </FormSettings>
         </div>
     );

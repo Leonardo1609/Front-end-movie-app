@@ -51,7 +51,7 @@ const CreateAccount = () => {
     }
 
     return ( 
-        <div style = {{ height : '74vh' }}>
+        <div style = {{ height : '100vh' }}>
             <FormCreate onSubmit = { onSubmit }>
                 <h2>Join MovieApp</h2>
                 <label htmlFor = "username">

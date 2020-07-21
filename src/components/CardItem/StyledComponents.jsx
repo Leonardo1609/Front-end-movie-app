@@ -14,6 +14,7 @@ export const Name = styled.div`
     border-radius: 4px;
     padding: 5px 10px;
     z-index: 1000;
+    
     &::after{
         z-index: 2000;
         content:'';
@@ -31,10 +32,10 @@ export const Name = styled.div`
 export const CardContainer = styled.div`
     position: relative;
     display: flex;
+    flex: 1;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    margin-right: 4px;
+    height: 100%;
     background-color: #2c3440;
     border-radius: 10px;
     border: 3px solid transparent; 

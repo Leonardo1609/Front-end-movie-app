@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 
 export const Slider = styled.div`
-    display: flex;
-    justify-content: start;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat( auto-fill, minmax( 150px, 1fr ) );
+    grid-template-rows: repeat( auto-fill, minmax( 231px, 1fr ) );
+    grid-gap: 30px 5px;
+    margin: 10px 0 40px 0;     
 
     p{
         text-transform: uppercase;

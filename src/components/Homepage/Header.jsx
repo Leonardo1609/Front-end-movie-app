@@ -10,7 +10,7 @@ import { FavoritesContext } from '../ModifyProfile/context/FavoritesContext';
 const Header = () => {
 
     const loginContext = useContext( LoginContext );
-    const { showLogin } = loginContext;
+    const { login, showLogin } = loginContext;
 
     const apiContext = useContext( ApiContext );
     const { changePage } = apiContext;
@@ -25,6 +25,8 @@ const Header = () => {
     const [ search, setSearch ] = useState({
         item: ''
     });
+    
+    const [ showSearch, setShowSearch ] = useState( false );
 
     const history = useHistory();
 
@@ -45,6 +47,7 @@ const Header = () => {
         setSearch({
             item: ''
         })
+        setShowSearch( !showSearch );
         // Every where a search is done it will stars from page 1
         changePage( 1 );
     }
@@ -59,7 +62,7 @@ const Header = () => {
 
     return ( 
         <header>
-            <nav className = "navbar container">
+            <nav className = "navbar container" style = {{ padding: "0 1rem" }}>
                 <div className = "logo">
                     <Link 
                         to = "/" 
@@ -67,6 +70,7 @@ const Header = () => {
                         onClick = { cleanFavorites }
                     >MovieApp</Link>
                 </div>
+
                 <Linksform>
                     <ul> 
                         {/* Formulario dropdown de Login */}
@@ -74,7 +78,20 @@ const Header = () => {
                         {!authenticated || !user    
                         ?   
                         <li>
+                        {
+                            !login ?
+                            <i 
+                                className="fas fa-user"
+                                onClick = { () => showLogin( true, true ) }
+                            ></i>
+                            :
+                            <i 
+                                className="fas fa-times"
+                                onClick = { () => showLogin( false, true ) }
+                            ></i>
+                        }
                             <button 
+                                className = "signing"
                                 onClick = { () => showLogin( true, true ) }
                             >Sign In</button>
                         </li>
@@ -119,12 +136,21 @@ const Header = () => {
                         ?  
                         <li>
                             <Link
+                                className = "not-hover"
+                                to = '/create-account'
+                            >
+                                <i className="fas fa-user-plus"></i>
+                            </Link>
+                            <Link
+                                className = "create-account"
                                 to = '/create-account'
                             >Create Account
                             </Link>
                         </li>
                         : null
                         }
+                        <i className="fas fa-bars"></i>
+
                         <li>
                             <ul className = "movies">
                                 <li>
@@ -174,19 +200,34 @@ const Header = () => {
                                 </li>
                             </ul>
                         </li>
-
                     </ul>
 
                     {/* BUSCADOR */}
-                    <form className = "search" method = "GET" onSubmit = { searching }>
-                        <input 
-                            value = { item }
-                            type="text" 
-                            name = "item" 
-                            placeholder = 'search' 
-                            onChange = { obtainInfo } 
-                        />
-                    </form>
+                    
+                        <i 
+                            style = {{ cursor : "pointer" }}
+                            className= { `fas ${!showSearch ? 'fa-search' : 'fa-times'}` }
+                            onClick = { () => {
+                                setShowSearch( !showSearch );
+                                if ( login ){
+                                    showLogin( false, true );
+                                }
+                            }} 
+                        ></i>
+                    {
+                        showSearch ?
+                        <form className = "search" method = "GET" onSubmit = { searching }>
+                            <input 
+                                autoFocus
+                                value = { item }
+                                type="text" 
+                                name = "item" 
+                                placeholder = 'search' 
+                                onChange = { obtainInfo } 
+                            />
+                        </form>
+                        : null
+                    }
 
                 </Linksform>
             </nav>

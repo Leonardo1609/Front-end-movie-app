@@ -16,23 +16,21 @@ const NavProfile = ({ match }) => {
         margin: 0 auto;
         border:2px solid #24303c;
         border-radius: 3px;
-        margin-bottom: 3rem;
-        
+        margin-bottom: 1.5rem;
         &:hover{
             background: #2c3440;
         }
-
+        
         ul{
+            padding: 0;
             margin: 0;
             display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
             list-style: none;
             li{
-                border-right: 2px solid #24303c;
+                border: 1px solid #24303c;
                 font-size: .9rem;
-
-                &:last-child{
-                    border-right: unset;
-                }
 
                 a{
                     display: inline-block;

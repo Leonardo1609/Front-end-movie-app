@@ -77,7 +77,7 @@ const FilmPage = ({ match }) => {
         getMovie( match.params.id );
         return () => resetState();
         // eslint-disable-next-line
-    }, [ match ]);
+    }, []);
 
     return (
         <div style = { background_path }>
@@ -116,11 +116,11 @@ const FilmPage = ({ match }) => {
                                             <p className = "tagline">{ itemselected.tagline }</p>
                                             <p className = "overview-content">{ itemselected.overview }</p>
                                             
+                                        </div>
                                             <DescriptionItem 
                                                 type = "film"
                                                 match = { match.params.option }
                                             />
-                                        </div>
                                     </Fragment>
                                 )
                                 : <p style = {{ height: '100vh' }}>Sorry, we can’t find the page you’ve requested.</p>
@@ -137,7 +137,8 @@ const FilmPage = ({ match }) => {
                                     </div>
                                     : <Log 
                                         itemType = "movie"
-                                        name = { itemselected.title } />
+                                        name = { itemselected.title } 
+                                      />
                                 :null
                             }    
                         </div>

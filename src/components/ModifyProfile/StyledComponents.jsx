@@ -1,11 +1,29 @@
 import styled from '@emotion/styled';
 
+export const AcountSettingsTitle = styled.h2`
+    margin-top: 3rem;
+    @media ( min-width: 768px ){
+        padding: 0;
+    }
+`;
 export const FormSettings = styled.form`
-    display:flex;
-    
+    display:grid;
+    grid-template-rows: repeat( 3, auto-fill );
+    @media ( min-width: 768px ){
+        grid-template-columns: 45% 1fr;
+        grid-template-rows: repeat( 2, auto );
+        grid-gap: 0 3rem;
+        padding: 0;
+    }
+
     .inputs-form{
-        flex: 0 0 40%;
+
+        grid-row: 1/2;
         
+        @media ( min-width: 768px ){
+            grid-column: 1/2;
+        }
+
         label{
             display:block;
             text-transform: uppercase;
@@ -14,13 +32,14 @@ export const FormSettings = styled.form`
         }
         input[type="text"],
         input[type="email"]{
+            box-sizing: border-box;
             width: 100%;
             border-radius: 3px;
             border: none;
             outline: none;
             margin: 10px 0;
             height: 25px;
-            padding: 5px 10px;
+            padding: 1.2rem 10px;
             background-color: #2c3440;
             box-shadow: inset 0 -1px 0 #456;
             color: #89a;
@@ -29,8 +48,9 @@ export const FormSettings = styled.form`
                 color: black; 
             }
         }
-
+        
         textarea{
+            box-sizing: border-box;
             max-width: 100%;
             min-width: 100%;
             min-height: 150px;
@@ -53,42 +73,19 @@ export const FormSettings = styled.form`
             max-width: 150px;
             margin-left: calc(50% - 75px);
         }
-        .buttons{
-            margin: 2rem 0 4rem 0;
-            min-width: 100%;
-            display: flex;
-            justify-content: space-between;
-            input[type = "submit"], button{
-                padding: 10px 1rem;  
-                text-transform: uppercase;
-                border-radius: 3px;
-                border: none;
-                outline: none;
-                color: #D8E0E8;
-                font-weight: bold;
-                font-size: .8rem;
-                text-decoration: none;
-                cursor: pointer;
-
-                &:hover{
-                    color: white;
-                }
-            }
-
-            input[ type = "submit" ] {
-                background: #00b020;
-            }
-            button {
-                background: #456;
-            }
-        }  
     }
-
+    
     .favorites{
-        flex: 1;
-        padding-left: 6.5rem;
-        text-transform: uppercase;
+        
+        grid-row: 2/3;
 
+        @media ( min-width: 768px ){
+            grid-column: 2/3;
+            grid-row: 1/2;
+        }
+
+        text-transform: uppercase;
+        
         h4{
             margin-bottom: 0;
         }
@@ -100,15 +97,59 @@ export const FormSettings = styled.form`
             list-style: none;  
         }
     }
+
+    .buttons{
+
+        grid-row: 3/4;
+
+        @media ( min-width: 768px ){
+            grid-column: 1/2;
+            grid-row: 2/3;
+        }
+
+        margin: 2rem 0 4rem 0;
+        min-width: 100%;
+        display: flex;
+        justify-content: space-between;
+        input[type = "submit"], button{
+            padding: 10px 1rem;  
+            text-transform: uppercase;
+            border-radius: 3px;
+            border: none;
+            outline: none;
+            color: #D8E0E8;
+            font-weight: bold;
+            font-size: .8rem;
+            text-decoration: none;
+            cursor: pointer;
+
+            &:hover{
+                color: white;
+            }
+        }
+
+        input[ type = "submit" ] {
+            background: #00b020;
+        }
+        button {
+            background: #456;
+        }
+    }  
 `;
 
 export const FavoriteItem = styled.div`
     display:block;
-    width: 100px;
-    height: 150px;
+    width: 65px;
+    height: 100px;
+    
+    @media ( min-width: 768px ){
+        width: 100px;
+        height: 150px;
+    }
+
     border: 1px solid #456;
     background-color: #2c3641;
-    margin-right: 1rem;
+    margin-right: .8rem;
     margin-bottom: 1rem;
     border-radius: 3px;
     cursor: move;

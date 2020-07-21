@@ -4,7 +4,8 @@ export const FormCreate = styled.form`
     margin-top: 50px !important;
     display: flex;
     flex-direction: column;
-    width: 400px;
+    max-width: 400px;
+    min-width: 200px;
     margin: 0 auto;
     padding: 50px;
 

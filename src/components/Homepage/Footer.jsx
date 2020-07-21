@@ -7,6 +7,13 @@ const FooterHTML = styled.footer`
     height: 72px;
     display: flex;
     align-items: center;
+    font-size: .8rem;
+    p{
+        text-align: center;
+    }
+    @media ( min-width: 768px ){
+        font-size: 1rem;
+    }
 `;
 
 const Footer = () => {

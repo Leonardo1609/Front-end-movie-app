@@ -13,8 +13,8 @@ const ShowPage = ({ match }) => {
     const fac = new FastAverageColor();
 
     const path_image = 'http://image.tmdb.org/t/p/w500';
-    const apiContext = useContext( ApiContext );
     
+    const apiContext = useContext( ApiContext );
     const { itemselected, loading, 
             getShow, resetState, setLoading } = apiContext;
     
@@ -73,10 +73,9 @@ const ShowPage = ({ match }) => {
     useEffect(() => {
         setLoading( true );
         getShow( match.params.id );
-
         return () => resetState() ;
         // eslint-disable-next-line
-    }, [ match ]);
+    }, []);
 
     return (
         <div style = { background_path }>
@@ -119,10 +118,9 @@ const ShowPage = ({ match }) => {
                                             <p className = "release-date"><span>Release date</span>: { itemselected.first_air_date }</p>
                                             
                                             <DescriptionItem 
-                                                itemType = "show"
+                                                type = "show"
                                                 match = { match.params.option }
                                             />
-
                                         </div>
                                     </Fragment>
                                 )
@@ -141,7 +139,7 @@ const ShowPage = ({ match }) => {
                                     : <Log 
                                         itemType = "tv" 
                                         name = { itemselected.name }
-                                        />
+                                      />
                                 :null
                             }
                         </div>

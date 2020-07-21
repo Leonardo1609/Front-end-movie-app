@@ -3,20 +3,44 @@ import styled from '@emotion/styled';
 /* Styled components of Film & Show pages */ 
 
 export const Image = styled.img`
-    width: 230px;
-    height: 345px;
+    width: 250px;
+    height: 380px;
     background: #222831;
+    grid-row: 1/2;
+    margin: 0 calc( 50% - 115px );
+    @media ( min-width: 768px ){
+        width: 230px;
+        height: 345px;
+        grid-column: 1/2;
+        grid-row: 1/3;
+    }
 `;
 
 export const ItemContainer = styled.div`
 
     .body-item {
-        padding: 4rem 0;
-        display: flex;
+        padding: 4rem 2rem;
+        display: grid;
+        justify-content: center;
+        grid-template-columns: 100%;
+        grid-template-rows: repeat( 4, auto );
+        grid-row-gap: 2rem;
+
+        @media ( min-width : 768px){
+            padding: 4rem 0rem;
+            grid-template-columns: 1fr 2fr 1.2fr;
+            grid-template-rows: auto auto;
+            grid-gap: 0 1rem;
+        }
 
         .overview{
-            padding-left: 2rem;
-            width: 45%;
+            
+            grid-row: 2/3;
+            @media ( min-width: 768px ){
+                grid-column: 2/3;
+                grid-row: 1/2;                
+            }
+
             h2{
                 margin: unset;
                 font-size: 2rem;
@@ -49,7 +73,12 @@ export const ItemContainer = styled.div`
             }
         }
         .rate{
-            margin-left: 2rem;
+            grid-row: 3/4;
+            @media ( min-width: 768px ){
+                grid-column: 3/4;
+                grid-row: 1/3;
+            }
+
             button{
                 padding: 1rem;
                 background: #456;
@@ -88,6 +117,13 @@ export const Tooltip = styled.div`
 `;
 
 export const DescriptionBody = styled.div`
+
+    grid-row: 4/5;
+    @media ( min-width: 768px ){
+        grid-column: 2/3;
+        grid-row: 2/3;
+    }
+
     .list-container{
         border-bottom: 1px solid #D8D8D8;
         vertical-align: baseline;
@@ -188,10 +224,15 @@ export const TabDetails = styled.div`
 
 export const LogContainer = styled.div`
     background: #456;
-    margin-left: 1rem;
     border-radius: 5px;
     min-width: 90px;
     max-height: 225px;
+    grid-row: 3/4;
+
+    @media ( min-width: 768px ){
+        grid-column: 3/4;
+        grid-row: 1/3;
+    }
     .icons{
         display: flex;
         border-bottom: 1px solid #2c3440;

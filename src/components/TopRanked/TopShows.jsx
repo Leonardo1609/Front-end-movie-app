@@ -1,10 +1,10 @@
 import React, { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import ApiContext from '../../context/API/apiContext';
-import Card from '../CardItem/Card'
 import slug from 'slug';
 import Loading from '../Loading/Loading';
 import { Title, FilmsGenres, Films, Genres } from './StyledComponents';
+import SliderItems from '../SliderItems/SliderItems';
 
 const TopShows = ({ match }) => {
     
@@ -40,20 +40,16 @@ const TopShows = ({ match }) => {
                         loading ? <Loading /> : 
                         (tv_shows.length > 0 )
                         ? 
-
-                        tv_shows.map( (show, index) => (
-                            <Card
-                                width = { 'small' }
-                                key = { show.id }
-                                item = { show }
-                                index = { index }
-                            />
-                        ))
+                        <SliderItems
+                            items = { tv_shows }
+                            index = { true }
+                        />
                         : 
                         <p>No results</p>
                     }
                 </Films>
                 <Genres>
+                    <div>
                         <h2>Top Rated Films by Genre</h2>
                         <ul>
                             <li>
@@ -75,6 +71,7 @@ const TopShows = ({ match }) => {
                             )
                         }
                         </ul>
+                    </div>
                     </Genres>
                 </FilmsGenres>
         </div>

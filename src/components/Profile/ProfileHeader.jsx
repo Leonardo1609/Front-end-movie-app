@@ -11,6 +11,11 @@ const ProfileHeader = () => {
         justify-content: space-between;
         align-items: center;
         padding: 2rem 0;
+        flex-direction: column;
+
+        @media( min-width: 768px ){
+            flex-direction: row;
+        }
 
         .avatar-username{
             display: flex;
@@ -54,7 +59,7 @@ const ProfileHeader = () => {
             ul{
                 display: flex;
                 list-style: none;
-
+                padding-left: 0;
                 li{
                     display:flex;
                     flex-direction: column;
@@ -108,7 +113,7 @@ const ProfileHeader = () => {
                         <strong >
                             { 
                                 registers ? 
-                                    registers.filter( register => register.type === 'movie' ).length 
+                                    registers.filter( register => register.itemType === 'movie' ).length 
                                     : null 
                             }
                         </strong>
@@ -118,7 +123,7 @@ const ProfileHeader = () => {
                         <strong >
                             { 
                                 registers ? 
-                                    registers.filter( register => register.type === 'tv' ).length 
+                                    registers.filter( register => register.itemType === 'tv' ).length 
                                     : null 
                             }
                         </strong>

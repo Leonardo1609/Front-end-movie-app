@@ -23,11 +23,11 @@ const Card = ({ item, width, index, score }) => {
         <Fade>
             {
                 item ?
-                <div style = {{ marginBottom: "30px" }}>
+                <div style = {{ height: "100%" }}>
                     <CardContainer
                         style = {{
-                            height: width === 'super-small' ? '130px' : width === 'small' ? '193px' : '231px',
-                            width: width === 'super-small' ? '80px' : width === 'small' ? '131px' : '150px'
+                            // height: width === 'super-small' ? '130px' : width === 'small' ? '193px' : '231px',
+                            // width: width === 'super-small' ? '80px' : width === 'small' ? '131px' : '150px'
                         }}
                     >
                         <Name className = "name">
@@ -53,11 +53,11 @@ const Card = ({ item, width, index, score }) => {
                                 } 
                             </Link>
                     </CardContainer>
-                    { index >= 0 
+                    { index
                         ? ( 
                             <span 
                                 style = {{ display: "block", textAlign: "center", marginTop: "5px" }}
-                            >{ index + 1 }</span>
+                            >{ index }</span>
                           ) 
                         : score
                     ? <div style = {{ color: "#778899", display: "flex", marginTop: "5px" }}>{ stars }</div> 
