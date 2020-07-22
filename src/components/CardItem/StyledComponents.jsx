@@ -6,8 +6,8 @@ export const Name = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap; 
     position: absolute;
-    height:12px;
-    top: -33px;
+    height:26px;
+    top: -35px;
     text-align: center;
     font-size: .7rem;
     background-color: #456;
@@ -20,7 +20,7 @@ export const Name = styled.div`
         content:'';
         position: absolute;
         display: block;
-        top: 22px;
+        top: 24px;
         right: calc(50% - 10px);
         border-top:   8px solid #456;    
         border-right: 8px solid transparent;

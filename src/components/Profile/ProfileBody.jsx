@@ -22,7 +22,7 @@ const StatisticsRatings = styled.div`
         height: 100%;
         padding:0;
         margin:0;
-        margin-bottom: 1px;
+        margin-bottom: 3px;
         list-style: none;
         display:flex;
         align-items: flex-end;
@@ -61,7 +61,6 @@ const ProfileBody = ({ match }) => {
         } 
     }
 
-    console.log( porcentRating( 5 ));
     return ( 
         
         <div>

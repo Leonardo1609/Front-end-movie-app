@@ -64,7 +64,7 @@ const DescriptionItem = ({ type, match }) => {
                     !match ? 
                         itemselected.cast.map( person => 
                         (<span
-                            className = "tooltip"
+                            className = "tool-tip"
                             key = { person.credit_id } 
                         >{ person.name }</span>)    
                         )
@@ -72,7 +72,7 @@ const DescriptionItem = ({ type, match }) => {
                     : match === 'genre' ? 
                         itemselected.genres.map( genre => 
                         (<span 
-                            className = "tooltip"
+                            className = "tool-tip"
                             key = { genre.id } 
                         >{ genre.name }</span>)    
                         )

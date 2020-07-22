@@ -17,7 +17,7 @@ export const FormCreate = styled.form`
         outline: none;
         margin: 10px 0;
         height: 25px;
-        padding: 5px;
+        padding: 1rem 5px;
         background-color: #CCDDEE;
     }
     button{

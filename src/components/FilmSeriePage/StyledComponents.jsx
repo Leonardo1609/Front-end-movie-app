@@ -30,7 +30,7 @@ export const ItemContainer = styled.div`
             padding: 4rem 0rem;
             grid-template-columns: 1fr 2fr 1.2fr;
             grid-template-rows: auto auto;
-            grid-gap: 0 1rem;
+            grid-gap: 0 2rem;
         }
 
         .overview{
@@ -102,7 +102,7 @@ export const Details = styled.div`
 export const Tooltip = styled.div`
     margin-top: 8px;
     
-    .tooltip{
+    .tool-tip{
         display: inline-block;
         margin-right: 5px;
         border-radius: 3px;
@@ -226,7 +226,7 @@ export const LogContainer = styled.div`
     background: #456;
     border-radius: 5px;
     min-width: 90px;
-    max-height: 225px;
+    max-height: 255px;
     grid-row: 3/4;
 
     @media ( min-width: 768px ){
@@ -279,7 +279,7 @@ export const LogContainer = styled.div`
             margin-top: 8px;
             direction: rtl;
             position: relative;
-        
+
             &:hover .remove-score{
                 display :block;
             }

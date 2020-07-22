@@ -18,15 +18,15 @@
 
     to {
         opacity: 0;
-        transform: translateY(-200%);
+        transform: translateY(-100%);
     }
 }
 
-.show{
+.watch{
     animation: 500ms showDown ease;
     animation-fill-mode: forwards;
 }
-.hide{
+.ocult{
     animation: 500ms hideUp ease;
     animation-fill-mode: forwards;
 }

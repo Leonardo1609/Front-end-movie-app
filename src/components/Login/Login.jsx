@@ -12,17 +12,17 @@ const FormLogin = styled.form`
     background-color: rgba(20, 24, 28, 0.9);
     z-index: 1000;
     padding: 10px 35px;
-    height: 200px;
-    width: 90%;
+    height: calc(100% + 20px);
+    width: 100%;
     left: 0;
-    top: 80px;
+    top: -20px;
     @media ( min-width: 768px ){
         width: unset;
-        top: 0;
+        top: -20px;
         right: unset;
         flex-direction: row;
         padding: 10px 35px 10px 20px;
-        height: 56px;
+        height: 80px;
     }
     
     .close{
@@ -33,13 +33,10 @@ const FormLogin = styled.form`
         margin-right: 15px;
         margin-top: 16px;
         cursor: pointer;
-        display: none;
+        display: block;
 
         &:hover{
           color: white;  
-        }
-        @media ( min-width: 768px ){
-            display: block;
         }
     }
     div{
@@ -49,7 +46,7 @@ const FormLogin = styled.form`
         height: 100%;
         margin-right: 20px;
         align-items: start;
-
+        
         label{
             font-size: .8rem;
             text-align: left;
@@ -58,23 +55,25 @@ const FormLogin = styled.form`
         }
         input[ type = "email"]{
             font-size: .9rem;
-            width: 90%;
+            width: 100%;
             height: 18px;
-            padding: 5px 7px;
+            padding: 1rem .5rem;
+            margin-bottom: 10px;
             border-radius: 5px;
             border:none;
             outline: none;
             @media ( min-width: 768px ){
                 width: 170px;
+                margin-bottom: 0;
             }
         }
 
         input[ type = "password"]
         {
             font-size: .9rem;
-            width: 90%;
+            width: 100%;
             height: 18px;
-            padding: 5px 7px;
+            padding: 1rem .5rem;
             border-radius: 5px;
             border:none;
             outline: none;
@@ -144,7 +143,7 @@ const Login = () => {
 
     return ( 
     <FormLogin 
-        className = { click ? ( login ? 'show' : 'hide' ) : 'noshow' } 
+        className = { click ? ( login ? 'watch' : 'ocult' ) : 'noshow' } 
         onSubmit = { onSubmit }
         method = "POST"
     >
@@ -176,7 +175,7 @@ const Login = () => {
              />
         </div>
         <div>
-            <button type = "submit" >SIGN IN</button>
+            <button type = "submit">SIGN IN</button>
         </div>
     </FormLogin>
     
