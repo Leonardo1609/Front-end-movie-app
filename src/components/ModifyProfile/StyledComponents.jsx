@@ -181,6 +181,7 @@ export const ModalContainer = styled.div`
     h4{
         text-transform: uppercase;
         font-weight: 400;
+        font-size: .9rem;
     }
     div{
         label{

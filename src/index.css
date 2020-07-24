@@ -20,7 +20,7 @@ header {
 
 .navbar{
   background-color: var(--black);
-  z-index: 100000;
+  z-index: 10000;
 }
 
 .dark-link{
@@ -45,10 +45,11 @@ header {
 
 .dark-link a:hover{
   color: white;
-  background-color:  var(--black);
+  background-color: var(--black);
 }
 
-@media ( min-width: 960px){
+/* 1090px por el responsive del navbar de bootstrap */
+@media ( min-width: 1090px ){
   .navbar{
     background-color: transparent;
   }

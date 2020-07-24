@@ -1,11 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import ProfileContext from '../../context/Profile/profileContext';
 import ApiContext from '../../context/API/apiContext';
 import AuthContext from '../../context/Auth/authContext';
 import { LogContainer } from './StyledComponents';
+import ModalRegister from './ModalRegister';
+import { useEffect } from 'react';
 
 const Log = ({ itemType, name }) => {
     
+    const [ item, setItem ] = useState({});
 
     const profileContext = useContext( ProfileContext );
     const { postRegister, modifyRegister, removeRegister } = profileContext;
@@ -17,8 +20,6 @@ const Log = ({ itemType, name }) => {
     const { registers } = authContext;
 
     const registItemWatch = () => {
-
-        const item = registers.find( regist => regist.id === itemselected.id && regist.name === name );
 
         if( item ){
             if ( item.watched && item.watchlist ){
@@ -57,8 +58,6 @@ const Log = ({ itemType, name }) => {
 
     const registItemLike = () => {
             
-        const item = registers.find( regist => regist.id === itemselected.id && regist.name === name );
-
         if( item ){
             if ( item.liked ){
                 modifyRegister( item._id, {
@@ -94,8 +93,6 @@ const Log = ({ itemType, name }) => {
 
     const registWatchlist = () => {
             
-        const item = registers.find( regist => regist.id === itemselected.id && regist.name === name );
-
         if( item ){
             if ( item.watchlist && item.watched ){
                 modifyRegister( item._id, {
@@ -130,8 +127,6 @@ const Log = ({ itemType, name }) => {
     }
 
     const rateItem = e => {
-        const item = registers.find( regist => regist.id === itemselected.id && regist.name === name );
-
         if( item ){
             if ( item.score ){
                 modifyRegister( item._id, {
@@ -166,9 +161,7 @@ const Log = ({ itemType, name }) => {
         }
     }
     
-    const removeScore = () => {
-        const item = registers.find( regist => regist.id === itemselected.id && regist.name === name );
-        if( item ){
+    const removeScore = () => {        if( item ){
             if ( item.score ){
                 modifyRegister( item._id, {
                     ...item,
@@ -182,7 +175,42 @@ const Log = ({ itemType, name }) => {
             }
         }
 
-    }
+    };
+
+    const registReview = ( review ) => {
+        if( item ){
+            if ( item.watched ){
+                modifyRegister( item._id, {
+                    ...item,
+                    name,
+                    itemType,
+                    id: itemselected.id,
+                    poster_path: itemselected.poster_path,
+                    watched: true,
+                    review
+                })
+            } else {
+                modifyRegister( item._id, {
+                    ...item,
+                    name,
+                    itemType,
+                    id: itemselected.id,
+                    poster_path: itemselected.poster_path,
+                    watched: true,
+                    review
+                });
+            }
+        } else {
+            postRegister({
+                name,
+                itemType,
+                id: itemselected.id,
+                poster_path: itemselected.poster_path,
+                watched: true,
+                review
+            });
+        }
+    };
 
     let activeWatched;
     let activeLiked;
@@ -191,8 +219,6 @@ const Log = ({ itemType, name }) => {
     let score;
 
     if( registers && registers.find( regist => regist.id === itemselected.id && regist.name === name ) ) {
-        const item = registers.find( regist => regist.id === itemselected.id && regist.name === name );
-
         if ( item ){
             if( item.watched ){
                 activeWatched = {
@@ -221,7 +247,11 @@ const Log = ({ itemType, name }) => {
         }
     }
 
-
+    useEffect( ()=> {
+        if( registers ){
+            setItem(registers.find( regist => regist.id === itemselected.id && regist.name === name ));
+        }
+    }, [ registers, item ])
     return ( 
         <LogContainer>
             <div className = "icons">
@@ -299,8 +329,16 @@ const Log = ({ itemType, name }) => {
 
             </div>
             <div className = "review">
-                <span className = "add-delete-review">Add a review</span>
+                <span 
+                    className = "add-delete-review" 
+                    data-toggle="modal" 
+                    data-target="#exampleModal"
+                >{ item && item.review ? 'Edit or delete review' : 'Add a review'  }</span>
             </div>
+            <ModalRegister 
+                registReview = { registReview }
+                item = { item }
+            />
         </LogContainer>
     );
 }

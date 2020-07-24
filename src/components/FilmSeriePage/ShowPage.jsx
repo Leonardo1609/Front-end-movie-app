@@ -41,11 +41,11 @@ const ShowPage = ({ match }) => {
         }
         
         background_opacity = {
-            backgroundImage: `linear-gradient
-                              (to right, rgba(5.00%, 5.00%, 5.00%, 1.00) 150px, rgba(6.06%, 6.06%, 6.06%, 0.84) 100%)
+            backgroundImage: `linear-gradient( to right,
+                                rgba(5.00%, 5.00%, 5.00%, 1.00) 150px, 
+                                rgba(6.06%, 6.06%, 6.06%, 0.84) 100% )
                               `,
             minHeight: "100vh"
-
         }
 
         setTimeout(

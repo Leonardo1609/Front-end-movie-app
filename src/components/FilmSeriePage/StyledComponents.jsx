@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 /* Styled components of Film & Show pages */ 
 
 export const Image = styled.img`
+    
     width: 250px;
     height: 380px;
     background: #222831;
@@ -13,6 +14,8 @@ export const Image = styled.img`
         height: 345px;
         grid-column: 1/2;
         grid-row: 1/3;
+        position: sticky;
+        top: 10px;    
     }
 `;
 

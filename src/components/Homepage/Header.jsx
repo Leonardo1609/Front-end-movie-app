@@ -81,7 +81,7 @@ const Header = () => {
                         {!authenticated || !user    
                         ?   
                             <button 
-                                className = "nav-link button-link text-left"
+                                className = "nav-link button-link text-left mt-0"
                                 onClick = { () => showLogin( true, true ) }
                             >Sign In</button>
                         :
@@ -118,7 +118,7 @@ const Header = () => {
                             className = "nav-item"
                         >
                             <Link
-                                className = "nav-link"
+                                className = "nav-link inline-block"
                                 to = '/create-account'
                             >Create Account
                             </Link>
