@@ -5,30 +5,32 @@ import AuthContext from '../../context/Auth/authContext';
 import { LogContainer } from './StyledComponents';
 import ModalRegister from './ModalRegister';
 import { useEffect } from 'react';
+import NoAuthenticatedLog from './NoAunthenticatedLog';
 
 const Log = ({ itemType, name }) => {
     
     const [ item, setItem ] = useState({});
 
     const profileContext = useContext( ProfileContext );
-    const { postRegister, modifyRegister, removeRegister } = profileContext;
+    const { registselected } = profileContext;
     
     const apiContext = useContext( ApiContext );
     const { itemselected } = apiContext;
 
     const authContext = useContext( AuthContext );
-    const { registers } = authContext;
+    const { authenticated, registers, 
+            postRegister, modifyRegister, removeRegister } = authContext;
 
+    const selected = itemselected || registselected;
     const registItemWatch = () => {
-
         if( item ){
             if ( item.watched && item.watchlist ){
                 modifyRegister( item._id, {
                     ...item,
                     name,
                     itemType,
-                    id: itemselected.id,
-                    poster_path: itemselected.poster_path,
+                    id: selected.id,
+                    poster_path: selected.poster_path,
                     watched: false,
                     score: null,
                     liked: false
@@ -40,8 +42,8 @@ const Log = ({ itemType, name }) => {
                     ...item,
                     name,
                     itemType,
-                    id: itemselected.id,
-                    poster_path: itemselected.poster_path,
+                    id: selected.id,
+                    poster_path: selected.poster_path,
                     watched: true
                 });
             }
@@ -49,8 +51,8 @@ const Log = ({ itemType, name }) => {
             postRegister({
                 name,
                 itemType,
-                id: itemselected.id,
-                poster_path: itemselected.poster_path,
+                id: selected.id,
+                poster_path: selected.poster_path,
                 watched: true
             });
         }
@@ -64,8 +66,8 @@ const Log = ({ itemType, name }) => {
                     ...item,
                     name,
                     itemType,
-                    id: itemselected.id,
-                    poster_path: itemselected.poster_path,
+                    id: selected.id,
+                    poster_path: selected.poster_path,
                     liked: false
                 })
             } else {
@@ -73,8 +75,8 @@ const Log = ({ itemType, name }) => {
                     ...item,
                     name,
                     itemType,
-                    id: itemselected.id,
-                    poster_path: itemselected.poster_path,
+                    id: selected.id,
+                    poster_path: selected.poster_path,
                     liked: true,
                     watched: true
                 });
@@ -83,8 +85,8 @@ const Log = ({ itemType, name }) => {
             postRegister({
                 name,
                 itemType,
-                id: itemselected.id,
-                poster_path: itemselected.poster_path,
+                id: selected.id,
+                poster_path: selected.poster_path,
                 liked: true,
                 watched: true
             });
@@ -99,8 +101,8 @@ const Log = ({ itemType, name }) => {
                     ...item,
                     name,
                     itemType,
-                    id: itemselected.id,
-                    poster_path: itemselected.poster_path,
+                    id: selected.id,
+                    poster_path: selected.poster_path,
                     watchlist: false
                 })
             } else if ( !item.watched && item.watchlist ) {
@@ -110,8 +112,8 @@ const Log = ({ itemType, name }) => {
                     ...item,
                     name,
                     itemType,
-                    id: itemselected.id,
-                    poster_path: itemselected.poster_path,
+                    id: selected.id,
+                    poster_path: selected.poster_path,
                     watchlist: true
                 });
             }
@@ -119,8 +121,8 @@ const Log = ({ itemType, name }) => {
             postRegister({
                 name,
                 itemType,
-                id: itemselected.id,
-                poster_path: itemselected.poster_path,
+                id: selected.id,
+                poster_path: selected.poster_path,
                 watchlist: true
             });
         }
@@ -133,8 +135,8 @@ const Log = ({ itemType, name }) => {
                     ...item,
                     name,
                     itemType,
-                    id: itemselected.id,
-                    poster_path: itemselected.poster_path,
+                    id: selected.id,
+                    poster_path: selected.poster_path,
                     watched: true,
                     score: Number( e.target.classList[2].split('b')[1] )
                 })
@@ -143,8 +145,8 @@ const Log = ({ itemType, name }) => {
                     ...item,
                     name,
                     itemType,
-                    id: itemselected.id,
-                    poster_path: itemselected.poster_path,
+                    id: selected.id,
+                    poster_path: selected.poster_path,
                     watched: true,
                     score: Number( e.target.classList[2].split('b')[1] )
                 });
@@ -153,22 +155,23 @@ const Log = ({ itemType, name }) => {
             postRegister({
                 name,
                 itemType,
-                id: itemselected.id,
-                poster_path: itemselected.poster_path,
+                id: selected.id,
+                poster_path: selected.poster_path,
                 watched: true,
                 score: Number( e.target.classList[2].split('b')[1] )
             });
         }
     }
     
-    const removeScore = () => {        if( item ){
+    const removeScore = () => {        
+        if( item ){
             if ( item.score ){
                 modifyRegister( item._id, {
                     ...item,
                     name,
                     itemType,
-                    id: itemselected.id,
-                    poster_path: itemselected.poster_path,
+                    id: selected.id,
+                    poster_path: selected.poster_path,
                     watched: true,
                     score: null
                 })
@@ -184,8 +187,8 @@ const Log = ({ itemType, name }) => {
                     ...item,
                     name,
                     itemType,
-                    id: itemselected.id,
-                    poster_path: itemselected.poster_path,
+                    id: selected.id,
+                    poster_path: selected.poster_path,
                     watched: true,
                     review
                 })
@@ -194,8 +197,8 @@ const Log = ({ itemType, name }) => {
                     ...item,
                     name,
                     itemType,
-                    id: itemselected.id,
-                    poster_path: itemselected.poster_path,
+                    id: selected.id,
+                    poster_path: selected.poster_path,
                     watched: true,
                     review
                 });
@@ -204,8 +207,8 @@ const Log = ({ itemType, name }) => {
             postRegister({
                 name,
                 itemType,
-                id: itemselected.id,
-                poster_path: itemselected.poster_path,
+                id: selected.id,
+                poster_path: selected.poster_path,
                 watched: true,
                 review
             });
@@ -218,40 +221,42 @@ const Log = ({ itemType, name }) => {
     let activeScore;
     let score;
 
-    if( registers && registers.find( regist => regist.id === itemselected.id && regist.name === name ) ) {
-        if ( item ){
-            if( item.watched ){
-                activeWatched = {
-                    color: "#00E054"
-                };
-            }
+    if ( item ){
+        if( item.watched ){
+            activeWatched = {
+                color: "#00E054"
+            };
+        }
 
-            if( item.liked ){
-                activeLiked = {
-                    color: "#ff304f"
-                }
+        if( item.liked ){
+            activeLiked = {
+                color: "#ff304f"
             }
+        }
 
-            if( item.watchlist ){
-                activeWatchlist = {
-                    color: "#3d5af1"
-                }
+        if( item.watchlist ){
+            activeWatchlist = {
+                color: "#3d5af1"
             }
+        }
 
-            if( item.score > 0 ){
-                score = item.score;
-                activeScore = {
-                    color: "#00E054"
-                };
-            }
+        if( item.score > 0 ){
+            score = item.score;
+            activeScore = {
+                color: "#00E054"
+            };
         }
     }
 
     useEffect( ()=> {
         if( registers ){
-            setItem(registers.find( regist => regist.id === itemselected.id && regist.name === name ));
+            setItem( registers.find( regist => 
+                regist.id === selected.id && regist.name === name 
+            ) );
         }
-    }, [ registers, item ])
+    }, [ registers, item, selected ])
+
+    if( !authenticated ) return (<NoAuthenticatedLog />);
     return ( 
         <LogContainer>
             <div className = "icons">

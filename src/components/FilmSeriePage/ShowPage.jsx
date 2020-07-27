@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useRef, Fragment } from 'react'
 import ApiContext from '../../context/API/apiContext';
-import LoginContext from '../../context/Login/loginContext';
-import AuthContext from '../../context/Auth/authContext';
 import Loading from '../Loading/Loading';
 import FastAverageColor from 'fast-average-color';
 import DescriptionItem from './DescriptionItem';
 import { Image, ItemContainer } from './StyledComponents';
 import Log from './Log';
+import ProfileContext from '../../context/Profile/profileContext';
 
 const ShowPage = ({ match }) => {
 
@@ -17,12 +16,9 @@ const ShowPage = ({ match }) => {
     const apiContext = useContext( ApiContext );
     const { itemselected, loading, 
             getShow, resetState, setLoading } = apiContext;
-    
-    const loginContext = useContext( LoginContext );
-    const { showLogin } = loginContext;
 
-    const authContext = useContext( AuthContext );
-    const { authenticated } = authContext;
+    const profileContext = useContext( ProfileContext );
+    const { cleanState } = profileContext;
 
     const containerBodyItem = useRef();
     const imageItem = useRef();
@@ -71,6 +67,7 @@ const ShowPage = ({ match }) => {
     }
 
     useEffect(() => {
+        cleanState();
         setLoading( true );
         getShow( match.params.id );
         return () => resetState() ;
@@ -128,15 +125,7 @@ const ShowPage = ({ match }) => {
                             }
                             {
                                 itemselected ?
-                                    !authenticated?
-                                    <div 
-                                        className = "rate" 
-                                    >
-                                        <button 
-                                            onClick = { () => showLogin( true, true )}
-                                        >Sign in to log, rate or review</button>
-                                    </div>
-                                    : <Log 
+                                    <Log 
                                         itemType = "tv" 
                                         name = { itemselected.name }
                                       />

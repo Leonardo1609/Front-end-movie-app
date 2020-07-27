@@ -75,23 +75,6 @@ export const ItemContainer = styled.div`
                 }
             }
         }
-        .rate{
-            grid-row: 3/4;
-            @media ( min-width: 768px ){
-                grid-column: 3/4;
-                grid-row: 1/3;
-            }
-
-            button{
-                padding: 1rem;
-                background: #456;
-                border-radius: 8px;
-                cursor: pointer;
-                outline: none;
-                border: none;
-                color: inherit;
-            }
-        }
     }
 `;
 
@@ -346,4 +329,153 @@ export const LogContainer = styled.div`
         }
     }   
    
+`;
+
+export const SignInToRate = styled.div`
+    grid-row: 3/4;
+    @media ( min-width: 768px ){
+        grid-column: 3/4;
+        grid-row: 1/3;
+    }
+
+    button{
+        padding: 1rem;
+        background: #456;
+        border-radius: 8px;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        color: inherit;
+    }
+`;
+
+export const ModalContainer = styled.div`
+    width: 800px;
+    margin: calc(50% - 100px) calc(-50% + 100px);
+
+    textarea{
+        min-height: 200px;
+        max-height: 280px;
+        background: #CCDDEE;
+    }
+
+    .button{
+        padding: .4rem 1rem;
+        border-radius: 4px;
+        font-size: .8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        color: white;
+    }
+
+    .save-button{
+        background-color: #00b020;
+    }
+    
+    .delete-button{
+        background-color: #89a;
+    }
+`;
+
+export const RegistPageContainer = styled.div`
+    display: grid;
+    grid-template-columns: 100px auto;
+    grid-template-rows: 150px 1fr;
+    grid-gap: 1rem;
+
+    @media ( min-width: 768px ){
+        grid-template-columns: 20% 1fr 30%;
+        grid-template-rows: 280px 1fr;
+        grid-gap: 2rem;
+    }
+
+    .card-section{
+        grid-column: 1/2;
+        grid-row: 1/2;
+    }
+
+    .body-section{
+        grid-column: 2/3;
+        grid-row: 1/2;
+
+        .regist-user{
+            font-size: .8rem;
+            padding: 5px 0;
+            border-bottom: 1px solid #456;
+
+            .avatar{
+                width: 1.5rem;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+
+            .username{
+                text-decoration: none;
+                color: #AABBCC;
+                font-weight: bold;
+                font-size: .9rem;
+                margin-left: 5px;
+            }
+        }
+        .regist-name{
+            font-size: 1.3rem;
+            font-weight:bold;
+
+            .stars{
+                color: rgb(0, 224, 84);
+                @media ( min-width: 358px ){
+                    margin-left: 10px;
+                }
+            }
+        }
+        .regist-date{
+            color: #667788;
+            font-size: .7rem;
+        }
+    }
+    .review-section{
+        grid-column: 1/3;
+        grid-row: 2/3;
+        @media ( min-width: 768px ){
+            margin-top: -215px;
+            grid-column: 2/3;
+            grid-row: 2/3;
+        }
+
+        .button-like{
+            color: #778899;
+            background: transparent;
+            outline: 0;
+            border: 0;
+            font-size: .8rem;
+            font-weight: bold;
+
+            &:hover{
+                color: white;
+            }
+
+            .fas{
+                margin-right: 5px;
+            }
+        }
+
+        .num-likes{
+            color: #778899;
+            font-size: .8rem;
+        }
+    }
+    .log-section{
+        grid-row: 3/4;
+        grid-column: 1/3;
+        margin-bottom: 100px;
+        @media ( min-width: 768px ){
+            grid-column: 3/4;
+            grid-row: 1/2;
+            margin-bottom: 0px;
+        }
+    }
+
 `;

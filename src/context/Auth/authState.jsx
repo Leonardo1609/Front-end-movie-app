@@ -3,7 +3,17 @@ import AuthContext from './authContext'
 import { AuthReducer } from './authReducer'
 import clientAxios from '../../config/axios';
 import tokenAuth from '../../config/token';
-import { CREATE_USER, GET_USER, SIGN_OUT, LOGIN_USER, GET_REGISTERS, UPDATE_USER } from '../../types';
+import { 
+    CREATE_USER, 
+    GET_USER, 
+    SIGN_OUT, 
+    LOGIN_USER, 
+    GET_REGISTERS, 
+    UPDATE_USER,
+    POST_REGIST,
+    MODIFY_REGIST,
+    REMOVE_REGIST
+} from '../../types';
 
 const AuthState = props => {
 
@@ -111,6 +121,42 @@ const AuthState = props => {
         }
     } 
 
+    const postRegister = async data => {
+        try{
+            const result = await clientAxios.post('/api/registers', data);
+            dispatch({
+                type: POST_REGIST,
+                payload: result.data
+            });        
+        } 
+        catch( error ){
+            console.log( error.response )
+        }
+    }
+    const modifyRegister = async ( id, data ) => {     
+        try{
+            const result = await clientAxios.patch(`/api/registers/${ id }`, data);
+            dispatch({
+                type: MODIFY_REGIST,
+                payload: result.data
+            }); 
+        } catch( error ){
+            console.log( error.response );
+        }
+    }
+
+    const removeRegister = async ( id ) => {
+        try{
+            await clientAxios.delete(`/api/registers/${ id }`);
+            dispatch({
+                type: REMOVE_REGIST,
+                payload: id
+            });
+        } catch( error ){
+            console.log( error.response );
+        }
+    }
+
     const signOut = () => {
         dispatch({
             type: SIGN_OUT
@@ -127,7 +173,10 @@ const AuthState = props => {
             signOut,
             loginUser,
             getRegistersAuth,
-            updateUser
+            updateUser,
+            postRegister,
+            modifyRegister,
+            removeRegister
         }}>
             { props.children }
         </AuthContext.Provider>

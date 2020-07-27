@@ -6,19 +6,19 @@ import LoginContext from '../../context/Login/loginContext';
 import AuthContext from '../../context/Auth/authContext';
 
 const FormLogin = styled.form`
-    position: absolute;
+    position: fixed;
     display: flex; 
     flex-direction: column;    
     background-color: rgba(20, 24, 28, 0.9);
     z-index: 1000;
     padding: 10px 35px;
-    height: calc(100% + 20px);
+    height: 280px;
     width: 100%;
     left: 0;
     top: -20px;
     @media ( min-width: 768px ){
         width: unset;
-        top: -20px;
+        top: 0px;
         right: unset;
         flex-direction: row;
         padding: 10px 35px 10px 20px;

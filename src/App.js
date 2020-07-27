@@ -19,6 +19,7 @@ import tokenAuth from './config/token';
 import Profile from './components/Profile/Profile';
 import ModifyProfile from './components/ModifyProfile/ModifyProfile';
 import FavoritesProvider from './components/ModifyProfile/context/FavoritesContext';
+import RegistPage from './components/FilmSeriePage/RegistPage';
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
                   <Route exact path = '/settings' component = { ModifyProfile }/> 
                   <Route exact path = '/profile/:username' component = { Profile }/>  
                   <Route exact path = '/profile/:username/:option' component = { Profile }/>  
+                  <Route exact path = '/profile/:username/:option/:item/:id' component = { RegistPage }/>  
                   <Route exact path = '/create-account' component = { CreateAccount } /> 
                   <Route exact path = '/premieres-films' component = { PremieresFilmsPage }/>  
                   <Route exact path = '/tv-air' component = { AiringShows }/>  

@@ -22,7 +22,11 @@ export const UPDATE_USER = "UPDATE_USER";
 export const CREATE_ERROR = 'CREATE_ERROR';
 export const SIGN_OUT = 'SIGN_OUT';
 
-
 export const GET_PUBLIC_USER = 'GET_PUBLIC_USER';
 export const GET_REGISTERS_PUBLIC = 'GET_REGISTERS_PUBLIC';
 export const GET_REGISTERS = 'GET_REGISTERS';
+export const GET_REGIST = 'GET_REGIST';
+export const POST_REGIST = 'POST_REGIST';
+export const MODIFY_REGIST = 'MODIFY_REGIST';
+export const REMOVE_REGIST = 'REMOVE_REGIST';
+

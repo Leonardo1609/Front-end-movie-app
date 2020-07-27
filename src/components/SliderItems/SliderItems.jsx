@@ -5,7 +5,7 @@ import Loading from '../Loading/Loading';
 import ApiContext from '../../context/API/apiContext';
 import { SectionHeading, Slider } from './StyledComponents';
 
-const SliderItems = ({ items, title, url, score, index }) => {
+const SliderItems = ({ items, title, url, score, index, regist }) => {
     const apiContext = useContext( ApiContext );
     const{ loading } = apiContext;
 
@@ -36,6 +36,7 @@ const SliderItems = ({ items, title, url, score, index }) => {
                             item = { item }
                             score = { item.score && score ? item.score : null }
                             index = { index ? i + 1 : null }
+                            regist = { regist }
                         />
                     ))
                     : 

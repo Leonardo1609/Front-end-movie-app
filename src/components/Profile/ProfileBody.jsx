@@ -104,6 +104,7 @@ const ProfileBody = ({ match }) => {
 
                     <SliderItems 
                         title = { 'Recent Activity' }
+                        regist = { true }
                         items = { registers.filter( regist => regist.watched ).slice( 0, 6 ) }
                         url = { user ? `/profile/${ user.username }/activity` : '' }
                         score = { true }

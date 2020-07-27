@@ -127,7 +127,7 @@ const ProfileHeader = () => {
                                     : null 
                             }
                         </strong>
-                        <span >Tv shows</span>
+                        <span >TV Shows</span>
                     </li>
                     <li>
                         <strong >

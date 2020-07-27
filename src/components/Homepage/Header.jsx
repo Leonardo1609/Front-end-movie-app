@@ -20,6 +20,8 @@ const Header = () => {
 
     const favoritesContext = useContext( FavoritesContext );
     const { cleanFavorites } = favoritesContext;
+    
+    // const profileContext = useContext( ProfileContext );
 
     const [ search, setSearch ] = useState({
         item: ''

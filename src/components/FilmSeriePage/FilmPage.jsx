@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useRef, Fragment } from 'react'
 import ApiContext from '../../context/API/apiContext';
-import LoginContext from '../../context/Login/loginContext';
-import AuthContext from '../../context/Auth/authContext';
 import Loading from '../Loading/Loading';
 import FastAverageColor from 'fast-average-color';
 import DescriptionItem from './DescriptionItem';
 import { Image, ItemContainer } from './StyledComponents';
 import Log from './Log';
+import ProfileContext from '../../context/Profile/profileContext';
 
 const FilmPage = ({ match }) => {
 
@@ -14,16 +13,13 @@ const FilmPage = ({ match }) => {
 
     const path_image = 'http://image.tmdb.org/t/p/w500';
 
+    const profileContext = useContext ( ProfileContext );
+    const { cleanState } = profileContext;
+
     const apiContext = useContext( ApiContext );
     const { itemselected, loading, 
             getMovie, resetState, setLoading } = apiContext;
     
-    const loginContext = useContext( LoginContext );
-    const { showLogin } = loginContext;
-
-    const authContext = useContext( AuthContext );
-    const { authenticated } = authContext;
-
     const containerBodyItem = useRef();
     const imageItem = useRef(); // para obtener el color promedio de la imagen con fast-average-color
 
@@ -74,6 +70,7 @@ const FilmPage = ({ match }) => {
     }
 
     useEffect(() => {
+        cleanState();
         setLoading( true );
         getMovie( match.params.id );
         return () => resetState();
@@ -128,18 +125,10 @@ const FilmPage = ({ match }) => {
                             }
                             {
                                 itemselected ?
-                                    !authenticated?
-                                    <div 
-                                        className = "rate" 
-                                    >
-                                        <button 
-                                            onClick = { () => showLogin( true, true )}
-                                        >Sign in to log, rate or review</button>
-                                    </div>
-                                    : <Log 
+                                   <Log 
                                         itemType = "movie"
                                         name = { itemselected.title } 
-                                      />
+                                    />
                                 :null
                             }    
                         </div>

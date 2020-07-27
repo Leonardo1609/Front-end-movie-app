@@ -4,14 +4,18 @@ import { Link } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
 import slug from 'slug';
 import { Name, CardContainer } from './StyledComponents';
+import ProfileContext from '../../context/Profile/profileContext';
 
-const Card = ({ item, width, index, score }) => {
+const Card = ({ item, index, score, regist }) => {
 
     const path_image = 'http://image.tmdb.org/t/p/w300';
     
     const apiContext = useContext( ApiContext );
     const { getMovie, getShow }  = apiContext;
-    
+
+    const profileContext = useContext( ProfileContext );
+    const { user } = profileContext;
+
     const stars = [];
     if( score ){
         for( let i = 1; i <= score; i++ ){
@@ -40,8 +44,11 @@ const Card = ({ item, width, index, score }) => {
                                 .type que solo los registros son los que tienen esta propiedad*/
                                 /* Resumen: si type es movie, url será film, si item tiene name, url será show, si no es ninguna
                                 url será film */
-                                to = {`/${ item.itemType === 'movie' ? 'film' : item.title ? 'film' : 'show' }/${ slug( item.title || item.name ) }/${ item.id }`} 
-                                style = {{ fontSize: width === 'super-small' ? '.8rem' : width === 'small' ? '.9rem' : '1rem' }}
+                                to = {
+                                    regist ?
+                                    `/profile/${ user.username }/${ item.itemType }/${ item.name }/${ item.id }`
+                                    : `/${ item.itemType === 'movie' ? 'film' : item.title ? 'film' : 'show' }/${ slug( item.title || item.name ) }/${ item.id }`
+                                } 
                                 onClick = { () => { item.itemType === 'movie' ? getMovie( item.id ) : item.title ? getMovie( item.id ) : getShow( item.id ) } }
                             >
                                 { item.poster_path ?

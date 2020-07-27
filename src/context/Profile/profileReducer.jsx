@@ -1,4 +1,4 @@
-import { GET_PUBLIC_USER, GET_REGISTERS_PUBLIC } from "../../types";
+import { GET_PUBLIC_USER, GET_REGISTERS_PUBLIC, GET_REGIST, RESET_STATE } from "../../types";
 
 const ProfileReducer = ( state, action ) => {
     switch( action.type ){
@@ -11,6 +11,18 @@ const ProfileReducer = ( state, action ) => {
             return {
                 ...state,
                 registers: action.payload.registers
+            }
+        case GET_REGIST:
+            return{
+                ...state,
+                registselected: action.payload.register
+            }
+        case RESET_STATE:
+            return{
+                user: null,
+                registers: [],
+                lists:null,
+                registselected: null
             }
         default:
             return state
