@@ -42,7 +42,7 @@ const ModalRegister = ({ registReview, item }) => {
                     <div className="row">
                         <div className="col-4">
                             <img 
-                                className="img-fluid"
+                                className="img-fluid posther"
                                 src={(selected.poster_path) ? 
                                     `${ path_image }${ selected.poster_path }`
                                     : null} 

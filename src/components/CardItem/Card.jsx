@@ -67,8 +67,17 @@ const Card = ({ item, index, score, regist }) => {
                             >{ index }</span>
                           ) 
                         : score
-                    ? <div style = {{ color: "#778899", display: "flex", marginTop: "5px" }}>{ stars }</div> 
-                        : null }
+                    ? <span 
+                        style = {{ color: "#778899", marginTop: "5px", marginRight: "10px" }}
+                    >{ stars }</span> 
+                        : null 
+                    }
+                    {
+                        item.review && regist ? 
+                            <i style= {{ color: "#778899" }}
+                            className="fas fa-align-left"
+                            ></i> : null
+                    }
                 </div>
 
                 :null

@@ -145,6 +145,18 @@ const AuthState = props => {
         }
     }
 
+    const updateLikes = async ( id ) => {     
+        try{
+            const result = await clientAxios.patch(`/api/registers/likes/${ id }`);
+            dispatch({
+                type: MODIFY_REGIST,
+                payload: result.data
+            }); 
+        } catch( error ){
+            console.log( error.response );
+        }
+    }
+
     const removeRegister = async ( id ) => {
         try{
             await clientAxios.delete(`/api/registers/${ id }`);
@@ -176,7 +188,8 @@ const AuthState = props => {
             updateUser,
             postRegister,
             modifyRegister,
-            removeRegister
+            removeRegister,
+            updateLikes
         }}>
             { props.children }
         </AuthContext.Provider>

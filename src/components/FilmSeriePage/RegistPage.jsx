@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, Fragment } from 'react';
 import ProfileContext from '../../context/Profile/profileContext';
 import Card from '../CardItem/Card';
 import { Link } from 'react-router-dom';
@@ -10,10 +10,11 @@ import AuthContext from '../../context/Auth/authContext';
 const RegistPage = ({ match }) => {
 
     const profileContext = useContext( ProfileContext );
-    const { user, registselected, getRegister, getPublicUser, cleanState } = profileContext;
+    const { user, registselected, getRegister, getPublicUser } = profileContext;
 
     const authContext = useContext( AuthContext );
-    const { registers } = authContext;
+    const { authenticated, registers, updateLikes } = authContext;
+
     useEffect( () => {
         getPublicUser( match.params.username ).then(
             user => getRegister( match.params.id, user._id )
@@ -21,6 +22,7 @@ const RegistPage = ({ match }) => {
     }, [ match, registers ]);
     
     if ( !registselected ) return null;
+
     return ( 
         <RegistPageContainer className="container mt-5">
             <div className="card-section">
@@ -70,16 +72,45 @@ const RegistPage = ({ match }) => {
             </div>
             <div className="review-section">
                     <p className="regist-review mt-3">{ registselected.review }</p>
-                    
-                    <button className="button-like">
-                        <i className="fas fa-heart"></i> Like review
-                    </button>
                     {
-                        registselected.usersLikes.length > 0 ?
-                        <span className="num-likes">{ registselected.usersLikes.length }</span>
-                        : <span className="num-likes">No likes</span>   
+                        registselected.review && authenticated ?
+                        <Fragment>
+                            {
+                                registselected.user.toString() !== authContext.user._id.toString() ?
+                                <button 
+                                    style = {{ color: registselected.usersLikes.indexOf( authContext.user._id ) >= 0 
+                                        ? '#ff304f' 
+                                        : ''
+                                    }}
+                                    className="button-like p-0 mr-2" 
+                                    onClick={ () => updateLikes( registselected._id ) }
+                                >
+                                    <i className="fas fa-heart"></i> 
+                                    { registselected.usersLikes.indexOf( authContext.user._id ) >= 0 
+                                        ? <span>Liked</span> 
+                                        : <span>Like review</span>   
+                                    }
+                                </button>
+                                : null
+                            }
+                            {
+                                registselected.usersLikes.length > 0 ?
+                            <span 
+                                className="num-likes"
+                            >{ registselected.usersLikes.length } like{'(s)'}</span>
+                                : <span className="num-likes">No likes</span>   
+                            }
+                        </Fragment>
+                        : null
                     }
                 </div>
+            <div className="comment-section">
+                <h2>Comment?</h2>
+                <form action="">
+                    <textarea name="" id=""></textarea>
+                    <button type="submit">Post</button>
+                </form>
+            </div>
             <div className="log-section">
                 {
                         <Log 

@@ -353,6 +353,11 @@ export const ModalContainer = styled.div`
     width: 800px;
     margin: calc(50% - 100px) calc(-50% + 100px);
 
+    .posther{
+        width: 100%;
+        height: 100%;
+        background: #223344;
+    }
     textarea{
         min-height: 200px;
         max-height: 280px;
@@ -470,11 +475,57 @@ export const RegistPageContainer = styled.div`
     .log-section{
         grid-row: 3/4;
         grid-column: 1/3;
-        margin-bottom: 100px;
+        /* margin-bottom: 100px; */
         @media ( min-width: 768px ){
             grid-column: 3/4;
             grid-row: 1/2;
             margin-bottom: 0px;
+        }
+    }
+    .comment-section{
+        grid-column: 1/3;
+        grid-row: 4/5;
+        margin-bottom: 175px;
+        @media ( min-width: 768px ){
+            grid-row: 2/3;
+        }
+        h2{    
+            font-size: .9rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid #456;
+            letter-spacing: 2px;
+        }
+
+        form{
+            /* float: right; */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            textarea{
+                min-height: 100px;
+                min-width: 100%;
+                background: #2c3440;
+                border: none;
+                box-shadow: inset 0 -1px 0 #456;
+                color: #89a;
+                padding: 10px;
+                &:focus{
+                    background: white;
+                    color: black;
+                }
+            }
+            button{
+                margin-top: 10px;
+                padding: 9px 15px;
+                background: #00b020;
+                outline: 0;
+                border: 0;
+                color :#f4fcf0;
+                box-shadow: inset 0 1px 0 hsla(0,0%,100%,.3);
+                border-radius: 3px;
+                text-transform: uppercase;
+                font-weight: bold;
+            }
         }
     }
 

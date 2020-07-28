@@ -27,23 +27,24 @@ const Log = ({ itemType, name }) => {
             if ( item.watched && item.watchlist ){
                 modifyRegister( item._id, {
                     ...item,
-                    name,
-                    itemType,
-                    id: selected.id,
-                    poster_path: selected.poster_path,
+                    // name,
+                    // itemType,
+                    // id: selected.id,
+                    // poster_path: selected.poster_path,
                     watched: false,
                     score: null,
-                    liked: false
+                    liked: false,
+                    review: null
                 })
             } else if( !item.watchlist ) {
                 removeRegister( item._id );
             } else {
                 modifyRegister( item._id, {
                     ...item,
-                    name,
-                    itemType,
-                    id: selected.id,
-                    poster_path: selected.poster_path,
+                    // name,
+                    // itemType,
+                    // id: selected.id,
+                    // poster_path: selected.poster_path,
                     watched: true
                 });
             }
@@ -64,19 +65,19 @@ const Log = ({ itemType, name }) => {
             if ( item.liked ){
                 modifyRegister( item._id, {
                     ...item,
-                    name,
-                    itemType,
-                    id: selected.id,
-                    poster_path: selected.poster_path,
+                    // name,
+                    // itemType,
+                    // id: selected.id,
+                    // poster_path: selected.poster_path,
                     liked: false
                 })
             } else {
                 modifyRegister( item._id, {
                     ...item,
-                    name,
-                    itemType,
-                    id: selected.id,
-                    poster_path: selected.poster_path,
+                    // name,
+                    // itemType,
+                    // id: selected.id,
+                    // poster_path: selected.poster_path,
                     liked: true,
                     watched: true
                 });
@@ -99,10 +100,10 @@ const Log = ({ itemType, name }) => {
             if ( item.watchlist && item.watched ){
                 modifyRegister( item._id, {
                     ...item,
-                    name,
-                    itemType,
-                    id: selected.id,
-                    poster_path: selected.poster_path,
+                    // name,
+                    // itemType,
+                    // id: selected.id,
+                    // poster_path: selected.poster_path,
                     watchlist: false
                 })
             } else if ( !item.watched && item.watchlist ) {
@@ -110,10 +111,10 @@ const Log = ({ itemType, name }) => {
             } else {
                 modifyRegister( item._id, {
                     ...item,
-                    name,
-                    itemType,
-                    id: selected.id,
-                    poster_path: selected.poster_path,
+                    // name,
+                    // itemType,
+                    // id: selected.id,
+                    // poster_path: selected.poster_path,
                     watchlist: true
                 });
             }
@@ -133,20 +134,20 @@ const Log = ({ itemType, name }) => {
             if ( item.score ){
                 modifyRegister( item._id, {
                     ...item,
-                    name,
-                    itemType,
-                    id: selected.id,
-                    poster_path: selected.poster_path,
+                    // name,
+                    // itemType,
+                    // id: selected.id,
+                    // poster_path: selected.poster_path,
                     watched: true,
                     score: Number( e.target.classList[2].split('b')[1] )
                 })
             } else {
                 modifyRegister( item._id, {
                     ...item,
-                    name,
-                    itemType,
-                    id: selected.id,
-                    poster_path: selected.poster_path,
+                    // name,
+                    // itemType,
+                    // id: selected.id,
+                    // poster_path: selected.poster_path,
                     watched: true,
                     score: Number( e.target.classList[2].split('b')[1] )
                 });
@@ -168,16 +169,15 @@ const Log = ({ itemType, name }) => {
             if ( item.score ){
                 modifyRegister( item._id, {
                     ...item,
-                    name,
-                    itemType,
-                    id: selected.id,
-                    poster_path: selected.poster_path,
+                    // name,
+                    // itemType,
+                    // id: selected.id,
+                    // poster_path: selected.poster_path,
                     watched: true,
                     score: null
                 })
             }
         }
-
     };
 
     const registReview = ( review ) => {
@@ -185,20 +185,20 @@ const Log = ({ itemType, name }) => {
             if ( item.watched ){
                 modifyRegister( item._id, {
                     ...item,
-                    name,
-                    itemType,
-                    id: selected.id,
-                    poster_path: selected.poster_path,
+                    // name,
+                    // itemType,
+                    // id: selected.id,
+                    // poster_path: selected.poster_path,
                     watched: true,
                     review
                 })
             } else {
                 modifyRegister( item._id, {
                     ...item,
-                    name,
-                    itemType,
-                    id: selected.id,
-                    poster_path: selected.poster_path,
+                    // name,
+                    // itemType,
+                    // id: selected.id,
+                    // poster_path: selected.poster_path,
                     watched: true,
                     review
                 });
