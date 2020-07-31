@@ -14,7 +14,7 @@
     "dotenv": "^8.2.0",
     "fast-average-color": "^6.0.2",
     "fs": "0.0.1-security",
-    "moment": "^2.26.0",
+    "moment": "^2.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-reveal": "^1.2.2",
