@@ -1,26 +1,27 @@
-import React, { useReducer, useContext } from 'react'
+import React, { useReducer } from 'react'
 import ProfileContext from './profileContext';
 import clientAxios from '../../config/axios';
 import { 
     GET_PUBLIC_USER, 
     GET_REGISTERS_PUBLIC, 
     GET_REGIST,
-    RESET_STATE
+    RESET_STATE,
+    MODIFY_LIKES_REGIST
 } from '../../types';
 import ProfileReducer from './profileReducer';
 
 const ProfileState = props => {
 
     const initialState ={
-        user: null,
-        registers: [],
-        lists: null,
-        registselected: null  
+        userpublic: null,
+        registerspublic: [],
+        listspublic: null,
+        registselected: null
     };
 
     const [ state, dispatch ] = useReducer( ProfileReducer, initialState );
 
-    const getPublicUser = async (username) => {
+    const getPublicUser = async ( username ) => {
         const result = await clientAxios.get('/api/users', { params : { username } });
         dispatch({
             type: GET_PUBLIC_USER,
@@ -55,6 +56,18 @@ const ProfileState = props => {
         }
     }
 
+    const updateLikes = async ( id ) => {     
+        try{
+            const result = await clientAxios.patch(`/api/registers/likes/${ id }`);
+            dispatch({
+                type: MODIFY_LIKES_REGIST,
+                payload: result.data
+            }); 
+        } catch( error ){
+            console.log( error.response );
+        }
+    }
+
     const cleanState = async () => {
         dispatch({
             type: RESET_STATE
@@ -62,11 +75,13 @@ const ProfileState = props => {
     }
     return ( 
         <ProfileContext.Provider value = {{
-            user: state.user,
-            registers: state.registers,
+            userpublic: state.userpublic,
+            registerspublic: state.registerspublic,
             lists: state.lists,
             registselected: state.registselected,
+            loading: state.loading,
             getRegister,
+            updateLikes,
             getPublicUser,
             getRegisters,
             cleanState

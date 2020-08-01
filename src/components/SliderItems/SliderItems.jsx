@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, Fragment } from 'react'
 import Card from '../CardItem/Card';
 import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
@@ -10,7 +10,7 @@ const SliderItems = ({ items, title, url, score, index, regist }) => {
     const{ loading } = apiContext;
 
     return (
-        <div>
+        <Fragment>
             { title ?
                 <SectionHeading>
                     <span>
@@ -43,7 +43,7 @@ const SliderItems = ({ items, title, url, score, index, regist }) => {
                     <p>No results</p>
                 }
             </Slider>
-        </div>
+        </Fragment>
     );
 }
  

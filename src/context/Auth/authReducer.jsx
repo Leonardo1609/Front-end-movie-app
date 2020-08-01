@@ -7,7 +7,12 @@ import {
     UPDATE_USER,
     POST_REGIST,
     MODIFY_REGIST,
-    REMOVE_REGIST
+    REMOVE_REGIST,
+    GET_COMMENTS,
+    POST_COMMENT,
+    MODIFY_COMMENT,
+    DELETE_COMMENT,
+    SET_COMMENT_SELECTED
 } from "../../types"
 
 export const AuthReducer = (state , action) => {
@@ -23,29 +28,28 @@ export const AuthReducer = (state , action) => {
         case UPDATE_USER:
             return{
                 ...state,
-                user: action.payload.user,
-                loading: false
+                userauth: action.payload.user
             }
         case GET_USER:
             return{
                 ...state,
                 authenticated: true,
-                user: action.payload.user
+                userauth: action.payload.user
             }
         case GET_REGISTERS:
             return{
                 ...state,
-                registers: action.payload.registers
+                registersauth: action.payload.registers
             }
         case POST_REGIST:
             return{
                 ...state,
-                registers: [ ...state.registers, action.payload.register ]
+                registersauth: [ ...state.registersauth, action.payload.register ]
             }
         case MODIFY_REGIST:
             return{
                 ...state,
-                registers: state.registers.map( register => {
+                registersauth: state.registersauth.map( register => {
                     if ( register.id === action.payload.register.id ){
                         return action.payload.register;
                     } else{
@@ -56,14 +60,45 @@ export const AuthReducer = (state , action) => {
         case REMOVE_REGIST:
             return{
                 ...state,
-                registers: state.registers.filter( register => register._id !== action.payload )
+                registersauth: state.registersauth.filter( register => register._id !== action.payload )
+            }
+        case SET_COMMENT_SELECTED:
+            return{
+                ...state,
+                commentselected: action.payload
+            }
+        case GET_COMMENTS:
+            return{
+                ...state,
+                comments: action.payload.comments,
+            }
+        case POST_COMMENT:
+            return{
+                ...state,
+                comments: [ ...state.comments, { comment: action.payload.comment, user : { _id: state.userauth._id, username: state.userauth.username, image: state.userauth.image } } ]
+            }
+        case MODIFY_COMMENT:
+            return{
+                ...state,
+                comments: state.comments.map( comment => {
+                     if( comment.comment._id === action.payload.comment._id ){
+                         return { comment: action.payload.comment, user : { _id: state.userauth._id, username: state.userauth.username, image: state.userauth.image } }
+                     } else{
+                         return comment
+                     }
+                })
+            }
+        case DELETE_COMMENT:
+            return{
+                ...state,
+                comments: state.comments.filter( comment => comment.comment._id !== action.payload )
             }
         case SIGN_OUT:
             localStorage.removeItem('token');
             return{
                 ...state,
                 authenticated: false,
-                user: null,
+                userauth: null,
                 token: null
             }
         default:

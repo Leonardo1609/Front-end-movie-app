@@ -352,7 +352,7 @@ export const SignInToRate = styled.div`
 export const ModalContainer = styled.div`
     width: 800px;
     margin: calc(50% - 100px) calc(-50% + 100px);
-
+    background-color:#456;
     .posther{
         width: 100%;
         height: 100%;
@@ -489,44 +489,202 @@ export const RegistPageContainer = styled.div`
         @media ( min-width: 768px ){
             grid-row: 2/3;
         }
-        h2{    
-            font-size: .9rem;
+    }
+
+`;
+
+export const CommentForm = styled.div`
+    h2{    
+        font-size: .9rem;
+        text-transform: uppercase;
+        border-bottom: 1px solid #456;
+        letter-spacing: 2px;
+    }
+
+    form{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        textarea{
+            min-height: 100px;
+            min-width: 100%;
+            background: #2c3440;
+            border: none;
+            box-shadow: inset 0 -1px 0 #456;
+            color: #89a;
+            padding: 10px;
+            &:focus{
+                background: white;
+                color: black;
+            }
+        }
+        button{
+            margin-top: 10px;
+            padding: 9px 15px;
+            background: #00b020;
+            outline: 0;
+            border: 0;
+            color :#f4fcf0;
+            box-shadow: inset 0 1px 0 hsla(0,0%,100%,.3);
+            border-radius: 3px;
             text-transform: uppercase;
-            border-bottom: 1px solid #456;
-            letter-spacing: 2px;
+            font-weight: bold;
+        }
+    }
+`;
+
+export const CommentContainer = styled.div`
+    display:flex;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #2c3440;
+    .user-flex{
+        flex: 0 0 30%;
+        a{
+            text-decoration: none;
+            color: #8899AA;
+            font-weight: bold;
+            font-size: .9rem;
         }
 
-        form{
-            /* float: right; */
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            textarea{
-                min-height: 100px;
-                min-width: 100%;
-                background: #2c3440;
-                border: none;
-                box-shadow: inset 0 -1px 0 #456;
-                color: #89a;
-                padding: 10px;
-                &:focus{
-                    background: white;
-                    color: black;
+        img{
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .actions{
+            margin: 5px 0;
+            .fas{
+                margin-right: 8px;
+                font-size: .9rem;
+                color: #8899AA;
+                cursor: pointer;
+                
+                &:hover{
+                    color: white;
                 }
-            }
-            button{
-                margin-top: 10px;
-                padding: 9px 15px;
-                background: #00b020;
-                outline: 0;
-                border: 0;
-                color :#f4fcf0;
-                box-shadow: inset 0 1px 0 hsla(0,0%,100%,.3);
-                border-radius: 3px;
-                text-transform: uppercase;
-                font-weight: bold;
             }
         }
     }
+    .comment-flex{
+        flex: 1;
+        font-size: .9rem;
+        color: #99AABB;
 
+        p{
+            word-break: break-all;
+        }
+    }
+`;
+
+export const ModalDeleteCommentContainer = styled.div`
+    width: 500px;
+    margin: calc(50%) 0;
+    background-color: #456;
+    padding: 20px;
+    .head-modal{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+
+        .title-modal{
+            text-transform: uppercase;
+            color: #9ab;
+            font-weight: 400;
+            font-size: 1.2rem;
+        }
+
+        .close{
+            color: #def;
+        }
+    }
+
+    .text-modal{
+        font-size: 1.2rem;    
+    }
+
+    .buttons{
+        display: flex;
+        justify-content: flex-end;
+    
+        button{
+            background: #89a;
+            color: #def;
+            padding: 9px 12px 8px;
+            line-height: 12px;
+            text-decoration: none;
+            font-size: 1rem;
+            border: none;
+            outline: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            border-radius: 3px;
+            margin-left: 5px;
+        }
+
+        .delete{
+            &:hover{
+                background: #ec1200;
+            }
+        }
+    }    
+`;
+
+export const ModalModifyCommentContainer = styled.div`
+    width: 500px;
+    margin: calc(50%) 0;
+    background-color: #456;
+    padding: 20px;
+    .head-modal{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+
+        .title-modal{
+            text-transform: uppercase;
+            color: #9ab;
+            font-weight: 400;
+            font-size: 1.2rem;
+        }
+
+        .close{
+            color: #def;
+        }
+    }
+
+    .text-modal{
+        font-size: 1.2rem;    
+    }
+
+    .textarea-comment{
+        min-height: 100px;
+        max-height: 500px;
+        background: #CCDDEE;
+    }
+
+    .buttons{
+        display: flex;
+        justify-content: flex-end;
+    
+        button{
+            background: #89a;
+            color: #def;
+            padding: 9px 12px 8px;
+            line-height: 12px;
+            text-decoration: none;
+            font-size: 1rem;
+            border: none;
+            outline: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            border-radius: 3px;
+            margin-left: 5px;
+        }
+
+        .update{
+            background: #00b020;
+        }
+    }    
 `;

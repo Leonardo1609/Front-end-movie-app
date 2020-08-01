@@ -6,12 +6,12 @@ export const FavoritesContext = createContext();
 const FavoritesProvider = props => {
     const [ favoritesItems, setFavoritesItems ] = useState([ {},{},{},{} ]);
     const authContext = useContext( AuthContext );
-    const { user } = authContext;
+    const { userauth } = authContext;
 
     const cleanFavorites = () => {
-        if( user ){
-            if( user.favorites.length > 0 ){
-                setFavoritesItems( user.favorites );
+        if( userauth ){
+            if( userauth.favorites.length > 0 ){
+                setFavoritesItems( userauth.favorites );
             } else{
                 setFavoritesItems([ {}, {}, {}, {} ]);
             }
@@ -19,12 +19,12 @@ const FavoritesProvider = props => {
     }
 
     useEffect( ()=> {
-        if( user ){
-            if( user.favorites.length > 0 ){
-                setFavoritesItems( user.favorites );
+        if( userauth ){
+            if( userauth.favorites.length > 0 ){
+                setFavoritesItems( userauth.favorites );
             }
         }
-    }, [ user ]);
+    }, [ userauth ]);
 
 
     return ( 

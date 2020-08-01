@@ -37,7 +37,7 @@ const ModifyProfile = ( ) => {
     const { favoritesItems, setFavoritesItems } = favoritesContext;
     
     const authContext = useContext( AuthContext );
-    const { user, updateUser } = authContext;
+    const { userauth, updateUser } = authContext;
     
     /*Inicializo mi state con un arreglo, para que no me de un error en el map del sortableList,
     sin embargo, también se inicializará con 4 objetos, ya que en el useEffect el state se
@@ -80,11 +80,11 @@ const ModifyProfile = ( ) => {
     };
 
     useEffect(() => {
-        if( user  ){
+        if( userauth  ){
             // Inicializo mi state de usuario con los datos del usuario que obtengo del authContext
             // y los favs del state 
             setUserUpdated({ 
-                ...user, 
+                ...userauth, 
                 "favorites": favs 
             });
             
@@ -92,7 +92,7 @@ const ModifyProfile = ( ) => {
             setFavs( favoritesItems );
         }
 
-    }, [ user, favs, favoritesItems ] );
+    }, [ userauth, favs, favoritesItems ] );
 
     return (
         <div className = "container">
@@ -129,13 +129,13 @@ const ModifyProfile = ( ) => {
                             id="avatar" 
                         />
                         {
-                            user ? 
-                                user.image
+                            userauth ? 
+                                userauth.image
                                 ? 
                                 <img 
-                                    alt = { user.username } 
+                                    alt = { userauth.username } 
                                     className = "avatar-image" 
-                                    src= {require(`../../../../backend-movieapp/src/public/img/profiles/${ user.image }`)}/>
+                                    src= {require(`../../../../backend-movieapp/src/public/img/profiles/${ userauth.image }`)}/>
                                 :
                                 <p>No hay imagen actual</p> 
                             :null

@@ -79,41 +79,42 @@ const ProfileHeader = () => {
     `;
     
     const authContext = useContext( AuthContext );
-    
+    const { userauth } = authContext;
     const profileContext = useContext( ProfileContext );
-    const { user, registers } = profileContext;
+    const { userpublic, registerspublic } = profileContext;
     
     return ( 
         <ProfileContainer className = "container">
             <div className = "avatar-username">
-                <img src= { user ? 
-                                user.image 
-                                ? require(`../../../../backend-movieapp/src/public/img/profiles/${ user.image }`) 
+                <img src= { userpublic ? 
+                                userpublic.image 
+                                ? require(`../../../../backend-movieapp/src/public/img/profiles/${ userpublic.image }`) 
                                 : 'https://s.ltrbxd.com/static/img/avatar1000.71ae0671.png'
                             : 'https://s.ltrbxd.com/static/img/avatar1000.71ae0671.png' } 
                     alt="avatar"
                 />
                 <div className = "username-edit">
-                    <h2 className = "username">{ user ? user.username : null }</h2>
-                    {   authContext.user && user ? authContext.user._id === user._id 
-                        ? 
-                         <Link to = "/settings">Edit Profile</Link>
-                        :
-                            null : null
+                    <h2 className = "username">{ userpublic ? userpublic.username : null }</h2>
+                    {   userauth && userpublic 
+                            ? userauth._id === userpublic._id 
+                                ? 
+                                    <Link to = "/settings">Edit Profile</Link>
+                                : null 
+                            : null
                     }
                 </div>
             </div>
             <div className = "registers">
                 <ul>
                     <li>
-                        <strong>{ registers ? registers.length : null }</strong>
+                        <strong>{ registerspublic ? registerspublic.length : null }</strong>
                         <span >Registers</span>
                     </li>
                     <li>
                         <strong >
                             { 
-                                registers ? 
-                                    registers.filter( register => register.itemType === 'movie' ).length 
+                                registerspublic ? 
+                                registerspublic.filter( register => register.itemType === 'movie' ).length 
                                     : null 
                             }
                         </strong>
@@ -122,9 +123,9 @@ const ProfileHeader = () => {
                     <li>
                         <strong >
                             { 
-                                registers ? 
-                                    registers.filter( register => register.itemType === 'tv' ).length 
-                                    : null 
+                                registerspublic ? 
+                                    registerspublic.filter( register => register.itemType === 'tv' ).length 
+                                : null 
                             }
                         </strong>
                         <span >TV Shows</span>
@@ -132,9 +133,9 @@ const ProfileHeader = () => {
                     <li>
                         <strong >
                             { 
-                                registers ? 
+                                registerspublic ? 
                                     // length of the registers this year
-                                    registers.filter( register => 
+                                    registerspublic.filter( register => 
                                         register.registeredAt.slice(0,4) === new Date().getFullYear().toString() 
                                     ).length 
                                     : null 

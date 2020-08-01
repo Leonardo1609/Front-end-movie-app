@@ -6,21 +6,23 @@ import moment from 'moment';
 import Log from './Log';
 import { RegistPageContainer } from './StyledComponents';
 import AuthContext from '../../context/Auth/authContext';
+import CommentReview from './CommentReview';
 
 const RegistPage = ({ match }) => {
 
     const profileContext = useContext( ProfileContext );
-    const { user, registselected, getRegister, getPublicUser } = profileContext;
+    const { userpublic, registselected, registerspublic, 
+            getRegister, updateLikes, getPublicUser } = profileContext;
 
     const authContext = useContext( AuthContext );
-    const { authenticated, registers, updateLikes } = authContext;
+    const { authenticated, userauth, registersauth } = authContext;
 
     useEffect( () => {
         getPublicUser( match.params.username ).then(
             user => getRegister( match.params.id, user._id )
         );
-    }, [ match, registers ]);
-    
+        // eslint-disable-next-line
+    }, [ match, registerspublic, registersauth ]);
     if ( !registselected ) return null;
 
     return ( 
@@ -33,13 +35,13 @@ const RegistPage = ({ match }) => {
             <div className = "body-section">
                 <p className="regist-user">
                     <Link
-                        to = {`/profile/${ user.username }`}                    
+                        to = {`/profile/${ userpublic.username }`}                    
                     >
                         <img className = "avatar" src= { 
-                            user 
+                            userpublic 
                             ? 
-                                user.image 
-                                ? require(`../../../../backend-movieapp/src/public/img/profiles/${ user.image }`) 
+                                userpublic.image 
+                                ? require(`../../../../backend-movieapp/src/public/img/profiles/${ userpublic.image }`) 
                                 : 'https://s.ltrbxd.com/static/img/avatar1000.71ae0671.png'
                             : 'https://s.ltrbxd.com/static/img/avatar1000.71ae0671.png' } 
                         />
@@ -47,9 +49,9 @@ const RegistPage = ({ match }) => {
                     { registselected.review ? 'Reviewed ': 'Watched' } by 
                     <Link 
                         className="username" 
-                        to = {`/profile/${ user.username }`}
+                        to = {`/profile/${ userpublic.username }`}
                     >   
-                        { user.username }
+                        { userpublic.username }
                     </Link>
                 </p>
                 <h3 className="regist-name">
@@ -76,9 +78,9 @@ const RegistPage = ({ match }) => {
                         registselected.review && authenticated ?
                         <Fragment>
                             {
-                                registselected.user.toString() !== authContext.user._id.toString() ?
+                                registselected.user.toString() !== userauth._id.toString() ?
                                 <button 
-                                    style = {{ color: registselected.usersLikes.indexOf( authContext.user._id ) >= 0 
+                                    style = {{ color: registselected.usersLikes.indexOf( userauth._id ) >= 0 
                                         ? '#ff304f' 
                                         : ''
                                     }}
@@ -86,7 +88,7 @@ const RegistPage = ({ match }) => {
                                     onClick={ () => updateLikes( registselected._id ) }
                                 >
                                     <i className="fas fa-heart"></i> 
-                                    { registselected.usersLikes.indexOf( authContext.user._id ) >= 0 
+                                    { registselected.usersLikes.indexOf( userauth._id ) >= 0 
                                         ? <span>Liked</span> 
                                         : <span>Like review</span>   
                                     }
@@ -105,19 +107,17 @@ const RegistPage = ({ match }) => {
                     }
                 </div>
             <div className="comment-section">
-                <h2>Comment?</h2>
-                <form action="">
-                    <textarea name="" id=""></textarea>
-                    <button type="submit">Post</button>
-                </form>
+                {
+                    registselected.review && authenticated
+                    ? <CommentReview/>
+                    : null
+                }
             </div>
             <div className="log-section">
-                {
-                        <Log 
-                            itemType = { registselected.itemType }
-                            name = { registselected.name }
-                        />
-                }
+                <Log 
+                    itemType = { registselected.itemType }
+                    name = { registselected.name }
+                />
             </div>
         </RegistPageContainer>
     );

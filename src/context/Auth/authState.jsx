@@ -12,7 +12,12 @@ import {
     UPDATE_USER,
     POST_REGIST,
     MODIFY_REGIST,
-    REMOVE_REGIST
+    REMOVE_REGIST,
+    GET_COMMENTS,
+    POST_COMMENT,
+    MODIFY_COMMENT,
+    DELETE_COMMENT,
+    SET_COMMENT_SELECTED
 } from '../../types';
 
 const AuthState = props => {
@@ -20,15 +25,16 @@ const AuthState = props => {
     const initialState = {
         token: localStorage.getItem('token'),
         authenticated: false,
-        user: null,
-        registers: null,
+        userauth: null,
+        registersauth: null,
+        comments: [],
+        commentselected: null
     }
 
-    const [ state, dispatch ] = useReducer( AuthReducer, initialState )
+    const [ state, dispatch ] = useReducer( AuthReducer, initialState );
 
     const getUser = async () => {
         const token = localStorage.getItem('token');
-
         if( token ){
             tokenAuth( token );
         }
@@ -44,11 +50,10 @@ const AuthState = props => {
         }
     }
 
-
+    
     const createUser = async data => {
         try {
             const result = await clientAxios.post('/api/users', data);
-            console.log( result );
             dispatch({
                 type: CREATE_USER,
                 payload: result.data
@@ -111,7 +116,6 @@ const AuthState = props => {
     const getRegistersAuth = async () =>{
         try {
             const result = await clientAxios.get('/api/registers');
-
             dispatch({
                 type: GET_REGISTERS,
                 payload: result.data
@@ -145,18 +149,6 @@ const AuthState = props => {
         }
     }
 
-    const updateLikes = async ( id ) => {     
-        try{
-            const result = await clientAxios.patch(`/api/registers/likes/${ id }`);
-            dispatch({
-                type: MODIFY_REGIST,
-                payload: result.data
-            }); 
-        } catch( error ){
-            console.log( error.response );
-        }
-    }
-
     const removeRegister = async ( id ) => {
         try{
             await clientAxios.delete(`/api/registers/${ id }`);
@@ -169,6 +161,61 @@ const AuthState = props => {
         }
     }
 
+    const setCommentSelected = async ( comment ) => {
+        dispatch({
+            type: SET_COMMENT_SELECTED,
+            payload: comment
+        })
+    }
+
+    const getComments = async ( id ) => {
+        try{
+            const result = await clientAxios.get(`/api/comments/register/${ id }`);
+            dispatch({
+                type: GET_COMMENTS,
+                payload: result.data
+            })
+        } catch ( error ){
+            console.log( error.response );
+        }
+    }
+
+    const postComment = async ( id, text ) => {
+        try {
+            const result = await clientAxios.post(`/api/comments/register/${ id }`, { text } );
+            dispatch({
+                type: POST_COMMENT,
+                payload: result.data
+            })
+        } catch ( error ) {
+            console.log( error.response );
+        }
+    }
+    
+    const modifyComment = async ( id, text ) => {
+        try {
+            const result = await clientAxios.patch(`/api/comments/${ id }`, { text });
+            console.log(result.data);
+
+            dispatch({
+                type: MODIFY_COMMENT,
+                payload: result.data
+            })
+        } catch ( error ) {
+            console.log( error.response );
+        }
+    }
+    const deleteComment = async ( registId, commentId ) => {
+        try {
+            await clientAxios.delete(`/api/comments/register/${ registId }/comment/${ commentId }`);
+            dispatch({
+                type: DELETE_COMMENT,
+                payload: commentId
+            })
+        } catch (error) {
+            console.log( error.response );
+        }
+    }
     const signOut = () => {
         dispatch({
             type: SIGN_OUT
@@ -178,8 +225,10 @@ const AuthState = props => {
     return ( 
         <AuthContext.Provider value = {{
             authenticated: state.authenticated,
-            user: state.user,
-            registers: state.registers,
+            userauth: state.userauth,
+            registersauth: state.registersauth,
+            comments: state.comments,
+            commentselected: state.commentselected,
             createUser,
             getUser,
             signOut,
@@ -189,7 +238,11 @@ const AuthState = props => {
             postRegister,
             modifyRegister,
             removeRegister,
-            updateLikes
+            setCommentSelected,
+            getComments,
+            postComment,
+            modifyComment,
+            deleteComment
         }}>
             { props.children }
         </AuthContext.Provider>

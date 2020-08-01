@@ -8,18 +8,17 @@ import { useEffect } from 'react';
 import NoAuthenticatedLog from './NoAunthenticatedLog';
 
 const Log = ({ itemType, name }) => {
-    
     const [ item, setItem ] = useState({});
-
-    const profileContext = useContext( ProfileContext );
-    const { registselected } = profileContext;
     
     const apiContext = useContext( ApiContext );
     const { itemselected } = apiContext;
-
+    
     const authContext = useContext( AuthContext );
-    const { authenticated, registers, 
-            postRegister, modifyRegister, removeRegister } = authContext;
+    const { authenticated, registersauth, 
+        postRegister, modifyRegister, removeRegister } = authContext;
+    
+    const profileContext = useContext( ProfileContext );
+    const { registselected } = profileContext;
 
     const selected = itemselected || registselected;
     const registItemWatch = () => {
@@ -249,12 +248,14 @@ const Log = ({ itemType, name }) => {
     }
 
     useEffect( ()=> {
-        if( registers ){
-            setItem( registers.find( regist => 
+        if( registersauth ){
+            setItem( registersauth.find( regist => 
+                // Because sometimes a film or review have the same id
                 regist.id === selected.id && regist.name === name 
             ) );
         }
-    }, [ registers, item, selected ])
+        // eslint-disable-next-line
+    }, [ registersauth, item, selected, name ]);
 
     if( !authenticated ) return (<NoAuthenticatedLog />);
     return ( 
@@ -337,7 +338,7 @@ const Log = ({ itemType, name }) => {
                 <span 
                     className = "add-delete-review" 
                     data-toggle="modal" 
-                    data-target="#exampleModal"
+                    data-target="#modalRegister"
                 >{ item && item.review ? 'Edit or delete review' : 'Add a review'  }</span>
             </div>
             <ModalRegister 

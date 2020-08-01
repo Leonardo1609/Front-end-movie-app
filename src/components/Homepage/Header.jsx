@@ -15,14 +15,13 @@ const Header = () => {
     const { changePage } = apiContext;
 
     const authContext = useContext( AuthContext );
-    const { authenticated, user,
+    const { authenticated, userauth,
             getUser, getRegistersAuth, signOut } = authContext;
 
     const favoritesContext = useContext( FavoritesContext );
     const { cleanFavorites } = favoritesContext;
     
     // const profileContext = useContext( ProfileContext );
-
     const [ search, setSearch ] = useState({
         item: ''
     });
@@ -80,30 +79,31 @@ const Header = () => {
                     <ul className="navbar-nav mr-auto"> 
                         {/* Formulario dropdown de Login */}
                         <Login />
-                        {!authenticated || !user    
+                        {!authenticated || !userauth   
                         ?   
                             <button 
+                                style = {{ paddingTop: '10.5px' }}
                                 className = "nav-link button-link text-left mt-0"
                                 onClick = { () => showLogin( true, true ) }
                             >Sign In</button>
                         :
                         <li className="nav-item dropdown">
-                            <button className = 'nav-link dropdown-toggle button-link' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {/* <img 
-                                    style = {{ width: "10px" }}
+                            <button  className = 'nav-link dropdown-toggle button-link' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img 
+                                    style = {{ width: "26px", height: "26px", borderRadius: '50%', marginRight: '10px' }}
                                     src={
-                                    user.image 
+                                    userauth.image 
                                     ?
-                                        require(`../../../../backend-movieapp/src/public/img/profiles/${ user.image }`)
+                                        require(`../../../../backend-movieapp/src/public/img/profiles/${ userauth.image }`)
                                     :
                                         'https://s.ltrbxd.com/static/img/avatar1000.71ae0671.png'
-                                    } alt={ user.username }/> */}
-                                { user.username } 
+                                    } alt={ userauth.username }/>
+                                <span>{ userauth.username }</span> 
                             </button>
                             <div className = "dropdown-menu dark-link">
                                 <Link
                                     className = "dropdown-item"
-                                    to = {`/profile/${ user.username }`}
+                                    to = {`/profile/${ userauth.username }`}
                                     onClick = { cleanFavorites }
                                     >Profile</Link>
                                 <Link
@@ -114,12 +114,13 @@ const Header = () => {
                             </div>
                         </li>
                         }
-                        {!authenticated || !user    
+                        {!authenticated || !userauth    
                         ?  
                         <li 
                             className = "nav-item"
                         >
                             <Link
+                                style = {{ paddingTop: '10.5px' }}
                                 className = "nav-link inline-block"
                                 to = '/create-account'
                             >Create Account
@@ -127,7 +128,7 @@ const Header = () => {
                         </li>
                         : null
                         }
-                        <li className="nav-item dropdown">
+                        <li className="nav-item dropdown" style = {{ paddingTop: '2.5px' }}>
                             <button className="nav-link dropdown-toggle button-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Movies
                             </button>
@@ -148,7 +149,7 @@ const Header = () => {
                             </div>
                         </li>
 
-                        <li className="nav-item dropdown">
+                        <li className="nav-item dropdown" style = {{ paddingTop: '2.5px' }}>
                             <button className="nav-link dropdown-toggle button-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Series
                             </button>

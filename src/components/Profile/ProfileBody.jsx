@@ -53,11 +53,11 @@ const ProfileBody = ({ match }) => {
     const { option } = match.params;
 
     const profileContext = useContext( ProfileContext );
-    const { user, registers } = profileContext;
+    const { userpublic, registerspublic } = profileContext;
 
     const porcentRating = ( score ) => {
-        if( registers ){
-            return 72 * ( ( registers.filter( register => register.score === score ).length / registers.length ) );
+        if( registerspublic ){
+            return 72 * ( ( registerspublic.filter( register => register.score === score ).length / registerspublic.length ) );
         } 
     }
 
@@ -71,7 +71,7 @@ const ProfileBody = ({ match }) => {
                         <div className = { styles["favs"]} >
                             <SliderItems 
                                 title = { 'Favorites' }
-                                items = { user ? user.favorites ? user.favorites.filter( item => item.id ) : [] : [] }
+                                items = { userpublic ? userpublic.favorites ? userpublic.favorites.filter( item => item.id ) : [] : [] }
                             />
                         </div>
                         <div className = { styles["statistics"] }>
@@ -105,44 +105,44 @@ const ProfileBody = ({ match }) => {
                     <SliderItems 
                         title = { 'Recent Activity' }
                         regist = { true }
-                        items = { registers.filter( regist => regist.watched ).slice( 0, 6 ) }
-                        url = { user ? `/profile/${ user.username }/activity` : '' }
+                        items = { registerspublic.filter( regist => regist.watched ).slice( 0, 6 ) }
+                        url = { userpublic ? `/profile/${ userpublic.username }/activity` : '' }
                         score = { true }
                     />
                     <SliderItems 
                         title = { 'Watchlist' }
-                        items = { registers.filter( regist => regist.watchlist ).slice( 0, 6 ) }
-                        url = { user ? `/profile/${ user.username }/watchlist` : '' }
+                        items = { registerspublic.filter( regist => regist.watchlist ).slice( 0, 6 ) }
+                        url = { userpublic ? `/profile/${ userpublic.username }/watchlist` : '' }
                     />
                 </Fragment>
                 : option === 'activity' ?
                 <SliderItems 
                     title = { 'Recent Activity' }
-                    items = { registers.filter( regist => regist.watched ) }
+                    items = { registerspublic.filter( regist => regist.watched ) }
                     url = "#"
                 />
                 : option === 'watchlist' ?
                     <SliderItems 
                     title = { 'Watchlist' }
-                    items = { registers.filter( register => register.watchlist ) }
+                    items = { registerspublic.filter( register => register.watchlist ) }
                     url = "#"
                     />
                 : option === 'films' ? 
                     <SliderItems 
                         title = { 'Films' }
-                        items = { registers.filter( register => register.type === 'movie' ) }
+                        items = { registerspublic.filter( register => register.type === 'movie' ) }
                         url = "#"
                     />
                 : option === 'tv-shows' ?
                     <SliderItems 
                         title = { 'Tv Shows' }
-                        items = { registers.filter( register => register.type === 'tv' ) }
+                        items = { registerspublic.filter( register => register.type === 'tv' ) }
                         url = "#"
                     />
                 : option === 'likes' ?
                     <SliderItems 
                         title = { 'Likes' }
-                        items = { registers.filter( register => register.liked ) }
+                        items = { registerspublic.filter( register => register.liked ) }
                         url = "#"
                     />
                 : null

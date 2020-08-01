@@ -50,6 +50,7 @@ const ApiState = props => {
             payload: bool
         })
     }
+    
     const getMovie = async ( movieId ) => {
         try{
             const moviepromise = axios.get(`${ url }movie/${ movieId }?api_key=${ apikey }&language=en-US`);

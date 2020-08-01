@@ -14,7 +14,7 @@ const Card = ({ item, index, score, regist }) => {
     const { getMovie, getShow }  = apiContext;
 
     const profileContext = useContext( ProfileContext );
-    const { user } = profileContext;
+    const { userpublic } = profileContext;
 
     const stars = [];
     if( score ){
@@ -45,8 +45,8 @@ const Card = ({ item, index, score, regist }) => {
                                 /* Resumen: si type es movie, url será film, si item tiene name, url será show, si no es ninguna
                                 url será film */
                                 to = {
-                                    regist ?
-                                    `/profile/${ user.username }/${ item.itemType }/${ item.name }/${ item.id }`
+                                    regist && userpublic ?
+                                    `/profile/${ userpublic.username }/${ item.itemType }/${ slug( item.name ) }/${ item.id }`
                                     : `/${ item.itemType === 'movie' ? 'film' : item.title ? 'film' : 'show' }/${ slug( item.title || item.name ) }/${ item.id }`
                                 } 
                                 onClick = { () => { item.itemType === 'movie' ? getMovie( item.id ) : item.title ? getMovie( item.id ) : getShow( item.id ) } }
