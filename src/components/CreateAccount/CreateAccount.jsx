@@ -59,7 +59,11 @@ const CreateAccount = () => {
         }
 
         createUser( newuser ).then(
-            () => history.push('/')
+            data => {
+                if ( data === 'created' ){
+                    history.push('/');
+                }
+            }
         );
     }
 

@@ -71,11 +71,8 @@ const AuthState = props => {
             };
 
             setAlert( alert );
-            return true;
-
+            return 'created';
         } catch( error ){
-            console.log( error );
-
             const alert = {
                 classes: 'error',
                 message: error.response.data.msg
