@@ -12,7 +12,7 @@ const ModalDeleteComment = () => {
     const { registselected } = profileContext;
 
     return ( 
-        <div className="modal fade" id="modalDeleteComment" tabIndex="-1" style={{zIndex:"100000"}} role="dialog" aria-labelledby="modalDeleteCommentLabel" aria-hidden="true">
+        <div className="modal fade p-0" id="modalDeleteComment" tabIndex="-1" style={{zIndex:"100000"}} role="dialog" aria-labelledby="modalDeleteCommentLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
                 <ModalDeleteCommentContainer className="modal-content">
                     <div className="modal-body">

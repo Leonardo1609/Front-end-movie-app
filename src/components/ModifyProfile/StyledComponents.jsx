@@ -87,7 +87,7 @@ export const FormSettings = styled.form`
         text-transform: uppercase;
         
         h4{
-            margin-bottom: 0;
+            margin: 15px 0;
         }
         .list-favorites{
             padding: 0;
@@ -141,12 +141,6 @@ export const FavoriteItem = styled.div`
     display:block;
     width: 65px;
     height: 100px;
-    
-    @media ( min-width: 768px ){
-        width: 100px;
-        height: 150px;
-    }
-
     border: 1px solid #456;
     background-color: #2c3641;
     margin-right: .8rem;
@@ -158,10 +152,24 @@ export const FavoriteItem = styled.div`
         content: '\f055';
         font-family: FontAwesome;
         position: absolute;
-        top: 42%;
-        left: 45%;
+        top: 40%;
+        left: 40%;
         color: #89a;
     }
+    
+    @media ( min-width: 768px ){
+        width: 100px;
+        height: 150px;
+        &::after{
+            content: '\f055';
+            font-family: FontAwesome;
+            position: absolute;
+            top: 42%;
+            left: 45%;
+            color: #89a;
+        }
+    }
+
 
     button{
         position: absolute;
@@ -178,6 +186,7 @@ export const FavoriteItem = styled.div`
 `;
 
 export const ModalContainer = styled.div`
+
     h4{
         text-transform: uppercase;
         font-weight: 400;
@@ -224,6 +233,66 @@ export const ModalContainer = styled.div`
                     text-transform: uppercase;
                     font-weight: bold;
                 }
+            }
+        }
+    }
+`;
+
+export const ModalChangePasswordContainer = styled.div`
+
+    width: 100%;
+    background-color: #456;
+    padding: 10px 30px;
+    margin: 30% 0;
+
+    @media ( min-width: 420px ){
+        width: 400px;
+        margin: calc(50% - 100px) calc(50% - 180px);
+    }
+
+    div{
+        form{
+            label{
+                display:block;
+                width: 100%;
+                font-size: .8rem;
+                margin-bottom: .5rem;
+            }
+
+            input[ type = "password" ]{
+                width:100%;
+                width:100%;
+                position:relative;
+                padding: 7px 5px;
+                box-sizing: border-box;
+                background-color: #cde;
+                box-shadow: inset 0 -1px 0 #fff;
+                color: #567;
+                border-radius: 3px;
+                border: none;
+                outline: none;
+                margin-bottom: 1rem;
+            }
+
+            button{
+                appearance: none;
+                display: inline-block;
+                padding: 9px 12px 8px;
+                line-height: 12px;
+                outline: none;
+                border: none;
+                text-transform: uppercase;
+                color: white;
+                font-weight: bold;
+                font-size: .9rem;
+                border-radius: 3px;
+            }
+
+            .cancel{
+                background: #89a;
+            }
+            .change{
+                background: #00b020;
             }
         }
     }

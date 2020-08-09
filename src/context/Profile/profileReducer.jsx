@@ -3,11 +3,23 @@ import {
     GET_REGISTERS_PUBLIC, 
     GET_REGIST, 
     RESET_STATE,
-    MODIFY_LIKES_REGIST
+    MODIFY_LIKES_REGIST,
+    LOADING,
+    CHANGE_PAGE
 } from "../../types";
 
 const ProfileReducer = ( state, action ) => {
     switch( action.type ){
+        case LOADING:
+            return{
+                ...state,
+                loadingregist: action.payload
+            }
+        case CHANGE_PAGE:
+            return {
+                ...state,
+                pagepublic: action.payload
+            }
         case GET_PUBLIC_USER:
             return {
                 ...state,
@@ -22,6 +34,7 @@ const ProfileReducer = ( state, action ) => {
             return{
                 ...state,
                 registselected: action.payload.register,
+                loadingregist: false
             }
         case MODIFY_LIKES_REGIST:
             return{
@@ -32,7 +45,7 @@ const ProfileReducer = ( state, action ) => {
                     } else{
                         return register;
                     }
-                })
+                }),
             }
         case RESET_STATE:
             return{
@@ -40,6 +53,8 @@ const ProfileReducer = ( state, action ) => {
                 registerspublic: [],
                 lists:null,
                 registselected: null,
+                loadingregist: true,
+                pagepublic: 1
             }
         default:
             return state

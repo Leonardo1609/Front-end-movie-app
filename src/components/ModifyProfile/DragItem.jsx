@@ -37,7 +37,19 @@ const DragCard = ({ item, index }) => {
 
     const path_image = 'http://image.tmdb.org/t/p/w500';
 
+    const noImageStyle = { 
+        fontWeight: "bold", 
+        fontSize: ".7rem", 
+        display:"block", 
+        height:"100%", 
+        textAlign: "center", 
+        overflow: "hidden",
+        backgroundColor: "#222831",
+        padding: "5px 0"
+    }
+
     const handleOpen = (e) => {
+        // For don't open the modal with X button 
         if( e.target.nodeName !== "BUTTON" ){
             setOpen(true);
         }
@@ -64,7 +76,7 @@ const DragCard = ({ item, index }) => {
 
         setFavoritesItems( favoritesItemsTemp );
         
-        // clean the context of reducer and close the modal
+        // clean the context of api reducer and close the modal
         clean();
         handleClose();
     }
@@ -74,6 +86,7 @@ const DragCard = ({ item, index }) => {
         favoritesItemsTemp[ index ] = item;
         setFavoritesItems( favoritesItemsTemp );
     }
+
     const onInput = e => {
         // si  hay texto en el input va a buscar
         if( e.target.value ){
@@ -89,7 +102,7 @@ const DragCard = ({ item, index }) => {
             itemref.current.style.backgroundImage = `url(${ path_image }/${ item.poster_path })`;
             itemref.current.style.backgroundSize = "100% 100%";
         }else {
-            itemref.current.style.backgroundImage = "none"
+            itemref.current.style.backgroundImage = "none";
         }
     }, [ item ]);
 
@@ -98,7 +111,14 @@ const DragCard = ({ item, index }) => {
             <FavoriteItem
                 onClick ={ handleOpen }
                 ref = { itemref }
-            >
+            >   {
+                    // If item isn't a default item with only ID, but don't have poster path
+                    !item.poster_path && item.itemType ? 
+                        <span 
+                            style={ noImageStyle }
+                        >{ item.name || item.title }</span>
+                    : null
+                }
                 <button type = "button" onClick = { cleanItem }>x</button>
             </FavoriteItem>
             <Modal

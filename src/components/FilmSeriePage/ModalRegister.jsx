@@ -1,19 +1,20 @@
 import React, { useState, useContext } from 'react'
 import ApiContext from '../../context/API/apiContext';
 import { useEffect } from 'react';
-import ProfileContext from '../../context/Profile/profileContext';
 import { ModalContainer } from './StyledComponents';
+import AuthContext from '../../context/Auth/authContext';
 
-const ModalRegister = ({ registReview, item }) => {
+const ModalRegister = ({ registReview }) => {
     const [ review, setReview ] = useState('');
 
-    const profileContext = useContext( ProfileContext );
-    const { registselected } = profileContext;
     const apiContext = useContext( ApiContext );
     const { itemselected } = apiContext;
 
-    const selected = registselected || itemselected;
+    const authContext = useContext( AuthContext );
+    const { registerselectedauth } = authContext;
 
+    const selected = registerselectedauth || itemselected;
+    console.log( selected );
     const path_image = 'http://image.tmdb.org/t/p/w500';
 
     const onChange = e => {
@@ -28,21 +29,21 @@ const ModalRegister = ({ registReview, item }) => {
     }
 
     useEffect( () => {
-        if( item && item.review !== null ){
-            setReview( item.review );
+        if( selected && selected.review ){
+            setReview( selected.review );
         } else{
             setReview('');
         }
-    }, [ item ]);
+    }, [ selected ]);
 
     if( !selected ) return null;
     return (
-    <div className="modal fade" id="modalRegister" tabIndex="-1" style={{zIndex:"100000"}} role="dialog" aria-labelledby="modalRegisterLabel" aria-hidden="true">
+    <div className="modal fade p-0" id="modalRegister" tabIndex="-1" style={{zIndex:"100000"}} role="dialog" aria-labelledby="modalRegisterLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
             <ModalContainer className="modal-content">
                 <div className="modal-body">
                     <div className="row">
-                        <div className="col-4">
+                        <div className="col-5 col-md-4 d-flex align-items-center">
                             <img 
                                 className="img-fluid posther"
                                 src={(selected.poster_path) ? 
@@ -53,7 +54,7 @@ const ModalRegister = ({ registReview, item }) => {
                                 // eslint-disable-next-line
                             />
                         </div>
-                        <div className="col-8">
+                        <div className="col-7 col-md-8">
                             <div>
                                 <span className="d-inline-block mb-3">I WATCHED...</span>
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
@@ -71,7 +72,7 @@ const ModalRegister = ({ registReview, item }) => {
                                 ></textarea>
                                 <div className="d-flex justify-content-end mt-3">
                                     {
-                                        item && item.review ?
+                                        selected && selected.review ?
                                         <button 
                                             type="button"
                                             className="button delete-button"

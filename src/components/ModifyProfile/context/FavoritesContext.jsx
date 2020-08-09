@@ -8,7 +8,8 @@ const FavoritesProvider = props => {
     const authContext = useContext( AuthContext );
     const { userauth } = authContext;
 
-    const cleanFavorites = () => {
+    // Clean the state only with the favorites saved in the db
+    const refreshFavorites = () => {
         if( userauth ){
             if( userauth.favorites.length > 0 ){
                 setFavoritesItems( userauth.favorites );
@@ -32,7 +33,7 @@ const FavoritesProvider = props => {
             value ={{
                 favoritesItems,
                 setFavoritesItems,
-                cleanFavorites
+                refreshFavorites
             }}
         >
             { props.children }

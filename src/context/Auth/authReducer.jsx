@@ -12,7 +12,8 @@ import {
     POST_COMMENT,
     MODIFY_COMMENT,
     DELETE_COMMENT,
-    SET_COMMENT_SELECTED
+    SET_COMMENT_SELECTED,
+    GET_REGIST_AUTH
 } from "../../types"
 
 export const AuthReducer = (state , action) => {
@@ -23,7 +24,7 @@ export const AuthReducer = (state , action) => {
             return {
                 ...state,
                 token: action.payload.token,
-                authenticated: true,
+                authenticated: true
             }
         case UPDATE_USER:
             return{
@@ -35,6 +36,11 @@ export const AuthReducer = (state , action) => {
                 ...state,
                 authenticated: true,
                 userauth: action.payload.user
+            }
+        case GET_REGIST_AUTH:
+            return{
+                ...state,
+                registerselectedauth: action.payload
             }
         case GET_REGISTERS:
             return{
@@ -50,7 +56,7 @@ export const AuthReducer = (state , action) => {
             return{
                 ...state,
                 registersauth: state.registersauth.map( register => {
-                    if ( register.id === action.payload.register.id ){
+                    if ( register._id === action.payload.register._id ){
                         return action.payload.register;
                     } else{
                         return register;
@@ -60,7 +66,8 @@ export const AuthReducer = (state , action) => {
         case REMOVE_REGIST:
             return{
                 ...state,
-                registersauth: state.registersauth.filter( register => register._id !== action.payload )
+                registersauth: state.registersauth.filter( register => register._id !== action.payload ),
+                registerselectedauth: null
             }
         case SET_COMMENT_SELECTED:
             return{
@@ -99,7 +106,10 @@ export const AuthReducer = (state , action) => {
                 ...state,
                 authenticated: false,
                 userauth: null,
-                token: null
+                token: null,
+                registersauth: [],
+                registerselectedauth: null,
+                comments: []
             }
         default:
             return state

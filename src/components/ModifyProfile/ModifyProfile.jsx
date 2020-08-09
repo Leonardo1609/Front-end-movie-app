@@ -5,6 +5,8 @@ import { FormSettings, AcountSettingsTitle } from './StyledComponents';
 import arrayMove from 'array-move';
 import DragCard from './DragItem';
 import { FavoritesContext } from './context/FavoritesContext';
+import AlertContext from '../../context/Alert/alertContext';
+import ModalChangePassword from './ModalChangePassword';
 
 const SortableItem = SortableElement(({ value, sortIndex }) => 
     <li style = {{ listStyle : 'none' }}>
@@ -34,11 +36,13 @@ const ModifyProfile = ( ) => {
     
     
     const favoritesContext = useContext( FavoritesContext );
-    const { favoritesItems, setFavoritesItems } = favoritesContext;
+    const { favoritesItems, setFavoritesItems, refreshFavorites } = favoritesContext;
     
     const authContext = useContext( AuthContext );
     const { userauth, updateUser } = authContext;
     
+    const alertContext = useContext( AlertContext );
+    const { setAlert } = alertContext;
     /*Inicializo mi state con un arreglo, para que no me de un error en el map del sortableList,
     sin embargo, también se inicializará con 4 objetos, ya que en el useEffect el state se
     modifica con los favoritesItems y este ya contiene 4 objetos, que pueden ser los favoritos del 
@@ -68,6 +72,43 @@ const ModifyProfile = ( ) => {
     const onSubmit = e => {
         e.preventDefault();
         // In here I append the avatar image and then send this to the backend
+        if( username.trim() === '' ){
+            const alert = {
+                message: 'Enter a username',
+                classes: 'error'
+            }
+            setAlert( alert );
+            return;
+        }
+
+        if( email.trim() === '' ){
+            const alert = {
+                message: 'Enter a username',
+                classes: 'error'
+            }
+
+            setAlert( alert );
+            return;
+        }
+
+        if( username.trim().length < 6 || username.trim().length > 15 ){
+            const alert = {
+                message: 'Min 6 characters - Max 15 characters for username',
+                classes: 'error'
+            }
+            setAlert( alert );
+            return;
+        }
+
+        if( username.trim().length < 6 || username.trim().length > 15 ){
+            const alert = {
+                message: 'Min 6 characters - Max 15 characters for username',
+                classes: 'error'
+            }
+            setAlert( alert );
+            return;
+        }
+        
         const formData = new FormData();
         // If input file have files
         if ( e.target.children[0].children[7].files[0] ){
@@ -79,8 +120,14 @@ const ModifyProfile = ( ) => {
         }
     };
 
+    useEffect( () => {
+        // When I left from the page and when userauth change I want to refresh the state of favorites
+        return () => refreshFavorites();
+        // eslint-disable-next-line
+    },[ userauth ]);
+
     useEffect(() => {
-        if( userauth  ){
+        if( userauth ){
             // Inicializo mi state de usuario con los datos del usuario que obtengo del authContext
             // y los favs del state 
             setUserUpdated({ 
@@ -91,7 +138,7 @@ const ModifyProfile = ( ) => {
             // Inicializo mi state de favs con los items favoritos del usuario
             setFavs( favoritesItems );
         }
-
+        // eslint-disable-next-line
     }, [ userauth, favs, favoritesItems ] );
 
     return (
@@ -153,9 +200,14 @@ const ModifyProfile = ( ) => {
                     </aside>
                     <div className = "buttons">
                         <input type="submit" value="Save Changes"/>
-                        <button>Change Password</button>
+                        <button 
+                            type="button"
+                            data-toggle="modal" 
+                            data-target="#modalPassword"
+                        >Change Password</button>
                     </div>
                 </FormSettings>
+                <ModalChangePassword />
         </div>
     );
 }

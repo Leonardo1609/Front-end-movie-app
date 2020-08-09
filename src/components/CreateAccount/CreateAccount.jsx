@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react'
 import AuthContext from '../../context/Auth/authContext';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { FormCreate } from './StyledComponents';
+import AlertContext from '../../context/Alert/alertContext';
 
 const CreateAccount = () => {
 
     const history = useHistory();
-
     const [ newuser, setNewUser ] = useState({
         username: '',
         email: '',
@@ -16,7 +16,10 @@ const CreateAccount = () => {
     const { username, email, password } = newuser;
 
     const authContext = useContext( AuthContext );
-    const { createUser } = authContext;
+    const { authenticated, createUser } = authContext;
+
+    const alertContext = useContext( AlertContext );
+    const { setAlert } = alertContext;
 
     const onChange = e => {
         setNewUser({
@@ -27,28 +30,40 @@ const CreateAccount = () => {
 
     const onSubmit = e => {
         e.preventDefault();
-        console.log( process.env.REACT_APP_BACKEND_URL );   
         if( username.trim() === '' || email.trim() === '' || password.trim() === '' ){
-            console.log( 'Llena todos los datos' );
+            console.log( 'Enter all inputs' );
+            const alert = {
+                message: 'Enter all inputs',
+                classes: 'error'
+            }
+            setAlert( alert );
             return;
         }
 
-        if( password.length < 6 ){
-            console.log( 'Min 6 characters for password' );
+        if( username.trim().length < 6 || username.trim().length > 15 ){
+            const alert = {
+                message: 'Min 6 characters - Max 15 characters for username',
+                classes: 'error'
+            }
+            setAlert( alert );
             return;
         }
 
-        createUser( newuser );
+        if( password.trim().length < 6 ){
+            const alert = {
+                message: 'Min 6 characters for password',
+                classes: 'error'
+            }
+            setAlert( alert );
+            return;
+        }
 
-        setNewUser({
-            username: '',
-            email: '',
-            password: ''
-        });
-
-        history.push('/');
-    
+        createUser( newuser ).then(
+            () => history.push('/')
+        );
     }
+
+    if ( authenticated ) return <Redirect to= '/' />
 
     return ( 
         <div style = {{ height : '100vh' }}>

@@ -20,6 +20,10 @@ import Profile from './components/Profile/Profile';
 import ModifyProfile from './components/ModifyProfile/ModifyProfile';
 import FavoritesProvider from './components/ModifyProfile/context/FavoritesContext';
 import RegistPage from './components/FilmSeriePage/RegistPage';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import NotFoundState from './context/NotFound/notfoundState';
+import AlertState from './context/Alert/alertState';
+import AlertComponent from './components/Alert/AlertComponent';
 
 function App() {
 
@@ -30,39 +34,44 @@ function App() {
   }
 
   return (
-    <AuthState>
-      <PublicState>
-        <ApiState>
-          <LoginState>
-            <FavoritesProvider>
-              <Router>
-                <Header/>
-                <Switch>
-                  <Route exact path = '/' component = { Homepage }/> 
-                  <Route exact path = '/settings' component = { ModifyProfile }/> 
-                  <Route exact path = '/profile/:username' component = { Profile }/>  
-                  <Route exact path = '/profile/:username/:option' component = { Profile }/>  
-                  <Route exact path = '/profile/:username/:option/:item/:id' component = { RegistPage }/>  
-                  <Route exact path = '/create-account' component = { CreateAccount } /> 
-                  <Route exact path = '/premieres-films' component = { PremieresFilmsPage }/>  
-                  <Route exact path = '/tv-air' component = { AiringShows }/>  
-                  <Route exact path = '/top-movies' component = { TopMovies }/>  
-                  <Route exact path = '/top-movies/:category/:id' component = { TopMovies }/>  
-                  <Route exact path = '/top-shows'  component = { TopShows }/>  
-                  <Route exact path = '/top-shows/:category/:id' component = { TopShows }/>  
-                  <Route exact path = '/film/:name/:id' component = { FilmPage }/>  
-                  <Route exact path = '/film/:name/:id/:option' component = { FilmPage }/>  
-                  <Route exact path = '/show/:name/:id' component = { ShowPage }/>  
-                  <Route exact path = '/show/:name/:id/:option' component = { ShowPage }/>  
-                  <Route exact path = '/search/:name' component = { Search }/>  
-                </Switch> 
-              </Router>
-            </FavoritesProvider>
-            <Footer />
-          </LoginState>
-        </ApiState>
-      </PublicState>
-    </AuthState>
+    <NotFoundState>
+      <AlertState>
+        <AuthState>
+          <PublicState>
+            <ApiState>
+              <LoginState>
+                  <FavoritesProvider>
+                    <Router>
+                      <AlertComponent />
+                      <Header/>
+                      <Switch>
+                        <Route exact path = '/' component = { Homepage }/> 
+                        <PrivateRoute exact path = '/settings' component = { ModifyProfile }/> 
+                        <Route exact path = '/profile/:username' component = { Profile }/>  
+                        <Route exact path = '/profile/:username/:option' component = { Profile }/>  
+                        <Route exact path = '/profile/:username/:type/:name/:id' component = { RegistPage }/>  
+                        <Route exact path = '/create-account' component = { CreateAccount } /> 
+                        <Route exact path = '/premieres-films' component = { PremieresFilmsPage }/>  
+                        <Route exact path = '/tv-air' component = { AiringShows }/>  
+                        <Route exact path = '/top-movies' component = { TopMovies }/>  
+                        <Route exact path = '/top-movies/:category/:id' component = { TopMovies }/>  
+                        <Route exact path = '/top-shows'  component = { TopShows }/>  
+                        <Route exact path = '/top-shows/:category/:id' component = { TopShows }/>  
+                        <Route exact path = '/film/:name/:id' component = { FilmPage }/>  
+                        <Route exact path = '/film/:name/:id/:option' component = { FilmPage }/>  
+                        <Route exact path = '/show/:name/:id' component = { ShowPage }/>  
+                        <Route exact path = '/show/:name/:id/:option' component = { ShowPage }/>  
+                        <Route exact path = '/search/:name' component = { Search }/>  
+                      </Switch> 
+                    </Router>
+                  </FavoritesProvider>
+                  <Footer />
+              </LoginState>
+            </ApiState>
+          </PublicState>
+        </AuthState>
+      </AlertState>
+    </NotFoundState>
   );
 }
 

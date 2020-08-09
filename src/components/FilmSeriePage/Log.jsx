@@ -1,35 +1,28 @@
 import React, { useContext, useState } from 'react';
-import ProfileContext from '../../context/Profile/profileContext';
 import ApiContext from '../../context/API/apiContext';
 import AuthContext from '../../context/Auth/authContext';
+import { useHistory } from 'react-router-dom';
 import { LogContainer } from './StyledComponents';
 import ModalRegister from './ModalRegister';
 import { useEffect } from 'react';
 import NoAuthenticatedLog from './NoAunthenticatedLog';
 
-const Log = ({ itemType, name }) => {
+const Log = ({ itemType, name, match }) => {
     const [ item, setItem ] = useState({});
-    
+    const authContext = useContext( AuthContext );
+    const { authenticated, registersauth, registerselectedauth,
+            postRegister, modifyRegister, removeRegister } = authContext;
+
     const apiContext = useContext( ApiContext );
     const { itemselected } = apiContext;
-    
-    const authContext = useContext( AuthContext );
-    const { authenticated, registersauth, 
-        postRegister, modifyRegister, removeRegister } = authContext;
-    
-    const profileContext = useContext( ProfileContext );
-    const { registselected } = profileContext;
 
-    const selected = itemselected || registselected;
+    const history = useHistory();
+
     const registItemWatch = () => {
         if( item ){
             if ( item.watched && item.watchlist ){
                 modifyRegister( item._id, {
                     ...item,
-                    // name,
-                    // itemType,
-                    // id: selected.id,
-                    // poster_path: selected.poster_path,
                     watched: false,
                     score: null,
                     liked: false,
@@ -37,13 +30,13 @@ const Log = ({ itemType, name }) => {
                 })
             } else if( !item.watchlist ) {
                 removeRegister( item._id );
+                if( match ){
+                    // I use replace and not push, because if I back to the prev page I'll have an error because the register doesn't exist
+                    history.replace(`/profile/${ match.params.username }`);
+                }
             } else {
                 modifyRegister( item._id, {
                     ...item,
-                    // name,
-                    // itemType,
-                    // id: selected.id,
-                    // poster_path: selected.poster_path,
                     watched: true
                 });
             }
@@ -51,8 +44,8 @@ const Log = ({ itemType, name }) => {
             postRegister({
                 name,
                 itemType,
-                id: selected.id,
-                poster_path: selected.poster_path,
+                id: itemselected.id,
+                poster_path: itemselected.poster_path,
                 watched: true
             });
         }
@@ -64,19 +57,11 @@ const Log = ({ itemType, name }) => {
             if ( item.liked ){
                 modifyRegister( item._id, {
                     ...item,
-                    // name,
-                    // itemType,
-                    // id: selected.id,
-                    // poster_path: selected.poster_path,
                     liked: false
                 })
             } else {
                 modifyRegister( item._id, {
                     ...item,
-                    // name,
-                    // itemType,
-                    // id: selected.id,
-                    // poster_path: selected.poster_path,
                     liked: true,
                     watched: true
                 });
@@ -85,8 +70,8 @@ const Log = ({ itemType, name }) => {
             postRegister({
                 name,
                 itemType,
-                id: selected.id,
-                poster_path: selected.poster_path,
+                id: itemselected.id,
+                poster_path: itemselected.poster_path,
                 liked: true,
                 watched: true
             });
@@ -99,21 +84,16 @@ const Log = ({ itemType, name }) => {
             if ( item.watchlist && item.watched ){
                 modifyRegister( item._id, {
                     ...item,
-                    // name,
-                    // itemType,
-                    // id: selected.id,
-                    // poster_path: selected.poster_path,
                     watchlist: false
                 })
             } else if ( !item.watched && item.watchlist ) {
                 removeRegister( item._id );
+                if( match ){
+                    history.replace(`/profile/${ match.params.username }`);
+                }
             } else {
                 modifyRegister( item._id, {
                     ...item,
-                    // name,
-                    // itemType,
-                    // id: selected.id,
-                    // poster_path: selected.poster_path,
                     watchlist: true
                 });
             }
@@ -121,8 +101,8 @@ const Log = ({ itemType, name }) => {
             postRegister({
                 name,
                 itemType,
-                id: selected.id,
-                poster_path: selected.poster_path,
+                id: itemselected.id,
+                poster_path: itemselected.poster_path,
                 watchlist: true
             });
         }
@@ -133,20 +113,12 @@ const Log = ({ itemType, name }) => {
             if ( item.score ){
                 modifyRegister( item._id, {
                     ...item,
-                    // name,
-                    // itemType,
-                    // id: selected.id,
-                    // poster_path: selected.poster_path,
                     watched: true,
                     score: Number( e.target.classList[2].split('b')[1] )
                 })
             } else {
                 modifyRegister( item._id, {
                     ...item,
-                    // name,
-                    // itemType,
-                    // id: selected.id,
-                    // poster_path: selected.poster_path,
                     watched: true,
                     score: Number( e.target.classList[2].split('b')[1] )
                 });
@@ -155,8 +127,8 @@ const Log = ({ itemType, name }) => {
             postRegister({
                 name,
                 itemType,
-                id: selected.id,
-                poster_path: selected.poster_path,
+                id: itemselected.id,
+                poster_path: itemselected.poster_path,
                 watched: true,
                 score: Number( e.target.classList[2].split('b')[1] )
             });
@@ -168,13 +140,9 @@ const Log = ({ itemType, name }) => {
             if ( item.score ){
                 modifyRegister( item._id, {
                     ...item,
-                    // name,
-                    // itemType,
-                    // id: selected.id,
-                    // poster_path: selected.poster_path,
                     watched: true,
                     score: null
-                })
+                });
             }
         }
     };
@@ -184,20 +152,12 @@ const Log = ({ itemType, name }) => {
             if ( item.watched ){
                 modifyRegister( item._id, {
                     ...item,
-                    // name,
-                    // itemType,
-                    // id: selected.id,
-                    // poster_path: selected.poster_path,
                     watched: true,
                     review
                 })
             } else {
                 modifyRegister( item._id, {
                     ...item,
-                    // name,
-                    // itemType,
-                    // id: selected.id,
-                    // poster_path: selected.poster_path,
                     watched: true,
                     review
                 });
@@ -206,8 +166,8 @@ const Log = ({ itemType, name }) => {
             postRegister({
                 name,
                 itemType,
-                id: selected.id,
-                poster_path: selected.poster_path,
+                id: itemselected.id,
+                poster_path: itemselected.poster_path,
                 watched: true,
                 review
             });
@@ -249,13 +209,11 @@ const Log = ({ itemType, name }) => {
 
     useEffect( ()=> {
         if( registersauth ){
-            setItem( registersauth.find( regist => 
-                // Because sometimes a film or review have the same id
-                regist.id === selected.id && regist.name === name 
-            ) );
+            // if registerselectedauth is null item will be null too
+            setItem( registerselectedauth );
         }
         // eslint-disable-next-line
-    }, [ registersauth, item, selected, name ]);
+    }, [ registersauth, name, registerselectedauth ]);
 
     if( !authenticated ) return (<NoAuthenticatedLog />);
     return ( 
@@ -343,7 +301,6 @@ const Log = ({ itemType, name }) => {
             </div>
             <ModalRegister 
                 registReview = { registReview }
-                item = { item }
             />
         </LogContainer>
     );

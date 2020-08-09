@@ -6,6 +6,9 @@ import DescriptionItem from './DescriptionItem';
 import { Image, ItemContainer } from './StyledComponents';
 import Log from './Log';
 import ProfileContext from '../../context/Profile/profileContext';
+import AuthContext from '../../context/Auth/authContext';
+import NotFoundComponent from '../NotFound/NotFound';
+import NotfoundContext from '../../context/NotFound/notfoundContext';
 
 const ShowPage = ({ match }) => {
 
@@ -14,18 +17,24 @@ const ShowPage = ({ match }) => {
     const path_image = 'http://image.tmdb.org/t/p/w500';
     
     const apiContext = useContext( ApiContext );
-    const { itemselected, loading, 
-            getShow, resetState, setLoading } = apiContext;
+    const { itemselected, loading,
+            getShow, getShowPromise, resetState, setLoading } = apiContext;
 
     const profileContext = useContext( ProfileContext );
     const { cleanState } = profileContext;
+
+    const authContext = useContext( AuthContext );
+    const { registersauth, setItemAuth } = authContext;
+
+    const notfoundContext = useContext( NotfoundContext );
+    const { setNotFound } = notfoundContext;
 
     const containerBodyItem = useRef();
     const imageItem = useRef();
 
     let background_path = {}
     let background_opacity  = {}; 
-    
+
     if( itemselected ){
         background_path = {
             backgroundImage: itemselected.backdrop_path ? `url(${ `http://image.tmdb.org/t/p/w500${ itemselected.backdrop_path }`})` : "none",
@@ -33,7 +42,7 @@ const ShowPage = ({ match }) => {
             backgroundAttachment: "fixed",
             backgroundSize: "cover",
             backgroundPosition : "right -350px top",
-            minHeight: "100vh"
+            minHeight: "80vh"
         }
         
         background_opacity = {
@@ -41,7 +50,7 @@ const ShowPage = ({ match }) => {
                                 rgba(5.00%, 5.00%, 5.00%, 1.00) 150px, 
                                 rgba(6.06%, 6.06%, 6.06%, 0.84) 100% )
                               `,
-            minHeight: "100vh"
+            minHeight: "80vh"
         }
 
         setTimeout(
@@ -67,13 +76,27 @@ const ShowPage = ({ match }) => {
     }
 
     useEffect(() => {
-        cleanState();
         setLoading( true );
         getShow( match.params.id );
-        return () => resetState() ;
+        return () => {
+            cleanState(); // profileContext
+            resetState(); // apiContext
+            setNotFound( false );
+        };
         // eslint-disable-next-line
-    }, []);
+    }, []);// I don't put match because refresh the page when i select cast, crew, details or genre
+    useEffect(() => {
+        getShowPromise( match.params.id ).then(
+            result => {
+                if( registersauth ){
+                    setItemAuth( registersauth.find( regist => regist.id === result.id  && regist.name === result.name ) );
+                }
+            }
+        ).catch( error => setNotFound( true ) );
+        // eslint-disable-next-line
+    },[ registersauth ]);
 
+    if ( !itemselected && !loading ) return <NotFoundComponent />
     return (
         <div style = { background_path }>
             <div style = { background_opacity } ref = { containerBodyItem }>
@@ -82,8 +105,7 @@ const ShowPage = ({ match }) => {
                         <div className = "body-item">
                             {   
                                 loading ? <Loading /> :
-                                itemselected ? 
-                                (
+                                
                                     <Fragment>
                                         <div>
                                             <Image 
@@ -119,17 +141,11 @@ const ShowPage = ({ match }) => {
                                                 match = { match.params.option }
                                             />
                                         </div>
+                                        <Log 
+                                            itemType = "tv" 
+                                            name = { itemselected.name }
+                                        />
                                     </Fragment>
-                                )
-                                : <p style = {{ height: '100vh' }}>Sorry, we can’t find the page you’ve requested.</p>
-                            }
-                            {
-                                itemselected ?
-                                    <Log 
-                                        itemType = "tv" 
-                                        name = { itemselected.name }
-                                      />
-                                :null
                             }
                         </div>
                     </ItemContainer>  

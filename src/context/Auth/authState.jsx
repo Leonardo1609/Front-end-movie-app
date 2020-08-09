@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useContext } from 'react'
 import AuthContext from './authContext'
 import { AuthReducer } from './authReducer'
 import clientAxios from '../../config/axios';
@@ -17,22 +17,27 @@ import {
     POST_COMMENT,
     MODIFY_COMMENT,
     DELETE_COMMENT,
-    SET_COMMENT_SELECTED
+    SET_COMMENT_SELECTED,
+    GET_REGIST_AUTH
 } from '../../types';
+import AlertContext from '../Alert/alertContext';
 
 const AuthState = props => {
-
+    
     const initialState = {
         token: localStorage.getItem('token'),
         authenticated: false,
         userauth: null,
         registersauth: null,
         comments: [],
-        commentselected: null
+        commentselected: null,
+        registerselectedauth: null
     }
 
     const [ state, dispatch ] = useReducer( AuthReducer, initialState );
 
+    const alertContext = useContext( AlertContext );
+    const { setAlert } = alertContext;
     const getUser = async () => {
         const token = localStorage.getItem('token');
         if( token ){
@@ -49,8 +54,7 @@ const AuthState = props => {
             console.log( error.response );
         }
     }
-
-    
+   
     const createUser = async data => {
         try {
             const result = await clientAxios.post('/api/users', data);
@@ -60,10 +64,24 @@ const AuthState = props => {
             });
 
             getUser();
-            getRegistersAuth();
+
+            const alert = {
+                classes: 'success',
+                message: 'Welcome to Movieapp!'
+            };
+
+            setAlert( alert );
+            return true;
 
         } catch( error ){
-            console.log( error.response );
+            console.log( error );
+
+            const alert = {
+                classes: 'error',
+                message: error.response.data.msg
+            };
+
+            setAlert( alert );
         }
     }
     
@@ -76,10 +94,19 @@ const AuthState = props => {
             });
 
             getUser();
-            getRegistersAuth();
 
+            const alert = {
+                classes: 'success',
+                message: 'Login Success!'
+            };
+
+            setAlert( alert );
         } catch (error) {
-            console.log( error.response );
+            const alert = {
+                classes: 'error',
+                message: error.response.data.msg
+            }
+            setAlert( alert );
         }
     }
 
@@ -99,7 +126,6 @@ const AuthState = props => {
                     type: UPDATE_USER,
                     payload: result[0].data
                 })
-
             }
             else{
                 result = await clientAxios.post('/api/users/edit-user', data );
@@ -108,9 +134,50 @@ const AuthState = props => {
                     payload: result.data
                 })
             }
+            const alert = {
+                classes: 'success',
+                message: 'User updated'
+            }
+    
+            setAlert( alert );
         }catch( error ){
             console.log( error.response );
+            const alert = {
+                classes: 'error',
+                message: error.response.data.msg
+            }
+    
+            setAlert( alert );
         }
+    }
+
+    const changePassword = async data => {
+        try {
+            const result = await clientAxios.post('/api/users/password', data );
+
+            const alert = {
+                message: result.data.msg,
+                classes: 'success'
+            }
+
+            setAlert( alert );
+
+        } catch (error) {
+            const alert = {
+                message: error.response.data.msg ? error.response.data.msg : error.response.data,
+                classes: 'error'
+            }
+
+            setAlert( alert );
+        }
+
+    }
+
+    const setItemAuth = ( item ) => {
+        dispatch({
+            type: GET_REGIST_AUTH,
+            payload: item
+        });
     }
 
     const getRegistersAuth = async () =>{
@@ -131,12 +198,13 @@ const AuthState = props => {
             dispatch({
                 type: POST_REGIST,
                 payload: result.data
-            });        
+            });  
         } 
         catch( error ){
-            console.log( error.response )
+            console.log( error.response );
         }
     }
+
     const modifyRegister = async ( id, data ) => {     
         try{
             const result = await clientAxios.patch(`/api/registers/${ id }`, data);
@@ -156,6 +224,14 @@ const AuthState = props => {
                 type: REMOVE_REGIST,
                 payload: id
             });
+            
+            const alert = {
+                classes: 'success',
+                message: 'Register removed'
+            }
+    
+            setAlert( alert );
+
         } catch( error ){
             console.log( error.response );
         }
@@ -205,6 +281,7 @@ const AuthState = props => {
             console.log( error.response );
         }
     }
+
     const deleteComment = async ( registId, commentId ) => {
         try {
             await clientAxios.delete(`/api/comments/register/${ registId }/comment/${ commentId }`);
@@ -212,20 +289,37 @@ const AuthState = props => {
                 type: DELETE_COMMENT,
                 payload: commentId
             })
+
+            const alert = {
+                classes: 'success',
+                message: 'Comment Removed'
+            }
+    
+            setAlert( alert );
         } catch (error) {
             console.log( error.response );
         }
     }
+
     const signOut = () => {
+        
         dispatch({
             type: SIGN_OUT
         });
+        
+        const alert = {
+            classes: 'success',
+            message: 'Bye!'
+        };
+
+        setAlert( alert );
     }
 
     return ( 
         <AuthContext.Provider value = {{
             authenticated: state.authenticated,
             userauth: state.userauth,
+            registerselectedauth: state.registerselectedauth,
             registersauth: state.registersauth,
             comments: state.comments,
             commentselected: state.commentselected,
@@ -233,6 +327,7 @@ const AuthState = props => {
             getUser,
             signOut,
             loginUser,
+            setItemAuth,
             getRegistersAuth,
             updateUser,
             postRegister,
@@ -242,7 +337,8 @@ const AuthState = props => {
             getComments,
             postComment,
             modifyComment,
-            deleteComment
+            deleteComment,
+            changePassword
         }}>
             { props.children }
         </AuthContext.Provider>

@@ -7,25 +7,47 @@ import Log from './Log';
 import { RegistPageContainer } from './StyledComponents';
 import AuthContext from '../../context/Auth/authContext';
 import CommentReview from './CommentReview';
+import NotFoundComponent from '../NotFound/NotFound';
+import Loading from '../Loading/Loading';
+import NotfoundContext from '../../context/NotFound/notfoundContext';
 
 const RegistPage = ({ match }) => {
-
     const profileContext = useContext( ProfileContext );
-    const { userpublic, registselected, registerspublic, 
-            getRegister, updateLikes, getPublicUser } = profileContext;
+    const { userpublic, registselected, registerspublic, loadingregist, 
+            getRegister, updateLikes, getPublicUser, cleanState } = profileContext;
 
     const authContext = useContext( AuthContext );
-    const { authenticated, userauth, registersauth } = authContext;
+    const { authenticated, userauth, registersauth, 
+            setItemAuth } = authContext;
+
+    const notfoundContext = useContext( NotfoundContext );
+    const { setNotFound } = notfoundContext;
 
     useEffect( () => {
-        getPublicUser( match.params.username ).then(
-            user => getRegister( match.params.id, user._id )
-        );
+        return () => { 
+            setNotFound( false ); 
+            cleanState() 
+        };
+        // eslint-disable-next-line
+    }, []);
+
+    useEffect( () => {
+        getPublicUser( match.params.username )
+        .then( user => getRegister( match.params.id, match.params.type, user._id ))
+        .then(
+            result => {
+                if( registersauth ){
+                    setItemAuth( registersauth.find( regist => regist.id === result.id  && regist.name === result.name ) );
+                }
+            }
+        ).catch( error => setNotFound( true ) );
         // eslint-disable-next-line
     }, [ match, registerspublic, registersauth ]);
-    if ( !registselected ) return null;
 
-    return ( 
+    if ( !registselected && !loadingregist ) return <NotFoundComponent />;
+
+    return (
+        loadingregist ? <Loading /> :
         <RegistPageContainer className="container mt-5">
             <div className="card-section">
                 <Card
@@ -37,7 +59,7 @@ const RegistPage = ({ match }) => {
                     <Link
                         to = {`/profile/${ userpublic.username }`}                    
                     >
-                        <img className = "avatar" src= { 
+                        <img alt = "avatar" className = "avatar" src= { 
                             userpublic 
                             ? 
                                 userpublic.image 
@@ -53,9 +75,6 @@ const RegistPage = ({ match }) => {
                     >   
                         { userpublic.username }
                     </Link>
-                </p>
-                <h3 className="regist-name">
-                    { registselected.name }
                     { registselected.score ?
                         <span className="stars">
                             {
@@ -68,7 +87,10 @@ const RegistPage = ({ match }) => {
                             }
                         </span>
                         : null
-                    }        
+                    }   
+                </p>
+                <h3 className="regist-name">
+                    { registselected.name.length > 40 ? registselected.name.slice( 0, 40 ) + '...' : registselected.name }     
                 </h3>
                 <span className="regist-date">Watched { moment( registselected.registeredAt ).format('ll') }</span>
             </div>
@@ -115,6 +137,7 @@ const RegistPage = ({ match }) => {
             </div>
             <div className="log-section">
                 <Log 
+                    match = { match }
                     itemType = { registselected.itemType }
                     name = { registselected.name }
                 />

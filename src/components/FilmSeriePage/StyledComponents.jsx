@@ -350,14 +350,28 @@ export const SignInToRate = styled.div`
 `;
 
 export const ModalContainer = styled.div`
-    width: 800px;
-    margin: calc(50% - 100px) calc(-50% + 100px);
+    width: 100%;
     background-color:#456;
+    margin: 20% 0;
     .posther{
-        width: 100%;
-        height: 100%;
+        width: 150px;
+        height: 200px;
         background: #223344;
+        margin: auto 0;
+
     }
+
+    @media ( min-width: 768px ){
+        width: 768px;
+        margin: calc(50% - 100px) calc(-50% + 100px);
+
+        .posther{
+            width: 100%;
+            height: 100%;
+            background: #223344;
+        }
+    }
+
     textarea{
         min-height: 200px;
         max-height: 280px;
@@ -387,10 +401,10 @@ export const ModalContainer = styled.div`
 
 export const RegistPageContainer = styled.div`
     display: grid;
-    grid-template-columns: 100px auto;
-    grid-template-rows: 150px 1fr;
+    grid-template-columns: 150px auto;
+    grid-template-rows: 225px repeat(3, auto);
     grid-gap: 1rem;
-
+    min-height: 75vh;
     @media ( min-width: 768px ){
         grid-template-columns: 20% 1fr 30%;
         grid-template-rows: 280px 1fr;
@@ -424,17 +438,16 @@ export const RegistPageContainer = styled.div`
                 font-size: .9rem;
                 margin-left: 5px;
             }
-        }
-        .regist-name{
-            font-size: 1.3rem;
-            font-weight:bold;
-
             .stars{
                 color: rgb(0, 224, 84);
                 @media ( min-width: 358px ){
                     margin-left: 10px;
                 }
             }
+        }
+        .regist-name{
+            font-size: 1.3rem;
+            font-weight:bold;
         }
         .regist-date{
             color: #667788;
@@ -445,7 +458,7 @@ export const RegistPageContainer = styled.div`
         grid-column: 1/3;
         grid-row: 2/3;
         @media ( min-width: 768px ){
-            margin-top: -215px;
+            margin-top: -200px;
             grid-column: 2/3;
             grid-row: 2/3;
         }
@@ -632,10 +645,14 @@ export const ModalDeleteCommentContainer = styled.div`
 `;
 
 export const ModalModifyCommentContainer = styled.div`
-    width: 500px;
-    margin: calc(50%) 0;
+    width: 100%;
     background-color: #456;
     padding: 20px;
+    margin: calc(40%) 0;
+    @media ( min-width:500px ){
+        width: 500px;
+    }
+
     .head-modal{
         display: flex;
         align-items: center;

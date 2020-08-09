@@ -19,7 +19,7 @@ const ModalModifyComment = () => {
     },[ commentselected ]);
     
     return ( 
-        <div className="modal fade" id="modalModifyComment" tabIndex="-1" style={{zIndex:"100000"}} role="dialog" aria-labelledby="modalModifyCommentLabel" aria-hidden="true">
+        <div className="modal fade p-0" id="modalModifyComment" tabIndex="-1" style={{zIndex:"100000"}} role="dialog" aria-labelledby="modalModifyCommentLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
                 <ModalModifyCommentContainer className="modal-content">
                     <div className="modal-body">

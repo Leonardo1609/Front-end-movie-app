@@ -4,7 +4,9 @@ import Login from '../Login/Login';
 import LoginContext from '../../context/Login/loginContext';
 import ApiContext from '../../context/API/apiContext';
 import AuthContext from '../../context/Auth/authContext';
-import { FavoritesContext } from '../ModifyProfile/context/FavoritesContext';
+// import { FavoritesContext } from '../ModifyProfile/context/FavoritesContext';
+import NotfoundContext from '../../context/NotFound/notfoundContext';
+import AlertContext from '../../context/Alert/alertContext';
 
 const Header = () => {
 
@@ -18,10 +20,15 @@ const Header = () => {
     const { authenticated, userauth,
             getUser, getRegistersAuth, signOut } = authContext;
 
-    const favoritesContext = useContext( FavoritesContext );
-    const { cleanFavorites } = favoritesContext;
+    // const favoritesContext = useContext( FavoritesContext );
+    // const { cleanFavorites } = favoritesContext;
     
-    // const profileContext = useContext( ProfileContext );
+    const alertContext = useContext( AlertContext );
+    const { hideAlert } = alertContext;
+
+    const notfoundContext = useContext( NotfoundContext );
+    const { notfounditem } = notfoundContext;
+
     const [ search, setSearch ] = useState({
         item: ''
     });
@@ -50,28 +57,43 @@ const Header = () => {
     }
 
     const closeSesion = () => {
-        // window.location.reload();
         signOut();
     }
+
     useEffect( () => {
         if( localStorage.getItem('token') ){
             getUser();
-            getRegistersAuth();
         }
         // eslint-disable-next-line
     }, []);
-
+    useEffect( () => {
+        if( localStorage.getItem('token') ){
+            getRegistersAuth();
+        }
+        // eslint-disable-next-line
+    }, [ userauth ]);
+    
+    if ( notfounditem ) return null;
     return (
-        <header> 
+        <header onClick = { hideAlert }> 
             <nav className = "navbar navbar-expand-lg navbar-dark container">
                 <div className = "logo">
                     <Link 
                         to = "/" 
                         className = "navbar-brand" 
-                        onClick = { cleanFavorites }
+                        // onClick = { cleanFavorites }
                     >MovieApp</Link>
                 </div>
-                <button onClick = { () => showLogin( false, false ) } className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button 
+                    onClick = { () => showLogin( false, false ) } 
+                    className="navbar-toggler" 
+                    type="button" 
+                    data-toggle="collapse" 
+                    data-target="#navbarSupportedContent" 
+                    aria-controls="navbarSupportedContent" 
+                    aria-expanded="false" 
+                    aria-label="Toggle navigation"
+                >
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
@@ -104,8 +126,13 @@ const Header = () => {
                                 <Link
                                     className = "dropdown-item"
                                     to = {`/profile/${ userauth.username }`}
-                                    onClick = { cleanFavorites }
-                                    >Profile</Link>
+                                    // onClick = { cleanFavorites }
+                                >Profile</Link>
+                                <Link
+                                    className = "dropdown-item"
+                                    to = {`/settings`}
+                                    // onClick = { cleanFavorites }
+                                >Settings</Link>
                                 <Link
                                     className = "dropdown-item"                                    
                                     to = '/'
@@ -134,15 +161,15 @@ const Header = () => {
                             </button>
                             <div className="dropdown-menu dark-link">
                                 <Link
-                                    className = "dropdown-item"
+                                    className = "dropdown-item" 
                                     to = "/top-movies"
-                                    onClick = { cleanFavorites }
+                                    // onClick = { cleanFavorites }
                                 >Top IMDB Ranked Movies</Link>
                                 <Link
                                     className = "dropdown-item"
                                     onClick = { () => {
                                         changePage( 1 );
-                                        cleanFavorites();
+                                        // cleanFavorites();
                                     } } 
                                     to = "/premieres-films" 
                                 >Premieres</Link>
@@ -157,13 +184,13 @@ const Header = () => {
                                     <Link
                                         className = "dropdown-item"
                                         to = "/top-shows"
-                                        onClick = { cleanFavorites }
+                                        // onClick = { cleanFavorites }
                                     >Top IMDB Ranked TV Shows</Link>
                                     <Link
                                         className = "dropdown-item"                                        
                                         onClick = {() => { 
                                             changePage( 1 );
-                                            cleanFavorites();
+                                            // cleanFavorites();
                                         }} 
                                         to = "/tv-air" 
                                     >Airing</Link>

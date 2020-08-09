@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
+import NotfoundContext from '../../context/NotFound/notfoundContext';
 
 const FooterHTML = styled.footer`
     background-color: #2c3440;
@@ -16,7 +17,14 @@ const FooterHTML = styled.footer`
     }
 `;
 
+
 const Footer = () => {
+    
+    const notfoundContext = useContext( NotfoundContext );
+    const { notfounditem } = notfoundContext;
+    
+    if ( notfounditem ) return null;
+
     return ( 
         <FooterHTML>
             <div className = "container">

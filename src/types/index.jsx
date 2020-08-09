@@ -13,11 +13,11 @@ export const CLEAN = 'CLEAN';
 export const LOADING = 'LOADING'
 export const SHOW_LOGIN = 'SHOW_LOGIN';
 
-
 export const CREATE_USER = 'CREATE_USER';
 export const LOGIN_USER = 'LOGIN_USER';
 export const GET_USER = 'GET_USER';
 export const UPDATE_USER = "UPDATE_USER"; 
+export const PASSWORD_CHANGED = "PASSWORD_CHANGED";
 
 export const CREATE_ERROR = 'CREATE_ERROR';
 export const SIGN_OUT = 'SIGN_OUT';
@@ -30,10 +30,16 @@ export const POST_REGIST = 'POST_REGIST';
 export const MODIFY_REGIST = 'MODIFY_REGIST';
 export const MODIFY_LIKES_REGIST = 'MODIFY_LIKES_REGIST';
 export const REMOVE_REGIST = 'REMOVE_REGIST';
+export const GET_REGIST_AUTH = 'GET_REGIST_AUTH';
 
 export const SET_COMMENT_SELECTED = 'SET_COMMENT_SELECTED';
 export const GET_COMMENTS = 'GET_COMMENTS';
 export const POST_COMMENT = 'POST_COMMENT';
 export const MODIFY_COMMENT = 'MODIFY_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
+
+export const NOT_FOUND = 'NOT_FOUND';
+
+export const SHOW_ALERT = 'SHOW_ALERT';
+export const HIDE_ALERT = 'HIDE_ALERT';
 

@@ -53,49 +53,55 @@ const ApiState = props => {
     
     const getMovie = async ( movieId ) => {
         try{
-            const moviepromise = axios.get(`${ url }movie/${ movieId }?api_key=${ apikey }&language=en-US`);
-            const castpromise = axios.get(`${ url }movie/${ movieId }/credits?api_key=${ apikey }&language=en-US`);
-    
-            const [ movie, cast ] = await Promise.all([ moviepromise, castpromise ]);
-            const result = { ...movie.data, ...cast.data }
-      
+            const result = await getMoviePromise( movieId );
             dispatch({
                 type: GET_MOVIE,
                 payload: result
             })
+            //TODO
         } catch ( error ){
-            const result = null;
-            dispatch({
-                type: GET_MOVIE,
-                payload: result
-            })
+            console.log( error.response );
         }
     };
     
-    const getShow = async ( serieId ) => {
-        
+    const getMoviePromise = async ( movieId ) => {
         try{
+            const moviepromise = axios.get(`${ url }movie/${ movieId }?api_key=${ apikey }&language=en-US`);
+            const castpromise = axios.get(`${ url }movie/${ movieId }/credits?api_key=${ apikey }&language=en-US`);
+
+            const [ movie, cast ] = await Promise.all([ moviepromise, castpromise ]);
+            const result = { ...movie.data, ...cast.data }
+            return result;
+        } catch( error ){
+            console.log( error.response );
+        }
+    }
+
+    const getShow = async ( serieId ) => {
+        try{
+            const result = await getShowPromise( serieId );
+            dispatch({
+                type: GET_SHOW,
+                payload: result
+            })
+        }  catch ( error ){
+            console.log( error.reponse );
+        }    
+    };
+
+    const getShowPromise = async( serieId ) => {
+        try {
             const seriepromise = axios.get(`${ url }tv/${ serieId }?api_key=${ apikey }&language=en-US`);
             const castpromise = axios.get(`${ url }tv/${ serieId }/credits?api_key=${ apikey }&language=en-US`);
     
             const [ serie, cast ] = await Promise.all([ seriepromise, castpromise ]);
-            const result = { ...serie.data, ...cast.data }
-            
-            dispatch({
-                type: GET_SHOW,
-                payload: result
-            })
+            const result = { ...serie.data, ...cast.data };
 
-        }  catch ( error ){
-            const result = null;
-            dispatch({
-                type: GET_SHOW,
-                payload: result
-            })
-        }    
-    
-    };
-
+            return result;
+        } catch (error) {
+            console.log( error.response );
+        }
+    }
     const getMovies = async ( page ) => {
         try {
             const result = await axios.get( `${ url }discover/movie?primary_release_date.gte=${ date }&api_key=${ apikey }&page=${ page }` );
@@ -104,7 +110,7 @@ const ApiState = props => {
                 payload: result.data
             })
         } catch (error) {
-            console.log( error );
+            console.log( error.response );
         }
     }
 
@@ -116,7 +122,7 @@ const ApiState = props => {
                 payload: result.data
             })
         } catch (error) {
-            console.log( error );
+            console.log( error.response );
         }
     }
     
@@ -222,7 +228,9 @@ const ApiState = props => {
                 loading: state.loading,
                 setLoading,
                 getMovie,
+                getMoviePromise,
                 getShow,
+                getShowPromise,
                 getMovies,
                 getShowsInAiring,
                 changePage,

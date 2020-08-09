@@ -6,6 +6,9 @@ import DescriptionItem from './DescriptionItem';
 import { Image, ItemContainer } from './StyledComponents';
 import Log from './Log';
 import ProfileContext from '../../context/Profile/profileContext';
+import AuthContext from '../../context/Auth/authContext';
+import NotFoundComponent from '../NotFound/NotFound';
+import NotfoundContext from '../../context/NotFound/notfoundContext';
 
 const FilmPage = ({ match }) => {
 
@@ -18,8 +21,14 @@ const FilmPage = ({ match }) => {
 
     const apiContext = useContext( ApiContext );
     const { itemselected, loading, 
-            getMovie, resetState, setLoading } = apiContext;
+            getMovie, getMoviePromise, resetState, setLoading } = apiContext;
     
+    const authContext = useContext( AuthContext );
+    const { registersauth, setItemAuth } = authContext;
+
+    const notfoundContext = useContext( NotfoundContext );
+    const { setNotFound } = notfoundContext;
+
     const containerBodyItem = useRef();
     const imageItem = useRef(); // para obtener el color promedio de la imagen con fast-average-color
 
@@ -69,13 +78,32 @@ const FilmPage = ({ match }) => {
         );
     }
 
-    useEffect(() => {
-        cleanState();
+
+    useEffect(()=>{
         setLoading( true );
         getMovie( match.params.id );
-        return () => resetState();
+        // TODO
+        return () => {
+            cleanState(); // profileContext
+            resetState(); // apiContext
+            setNotFound( false );
+        }
         // eslint-disable-next-line
-    }, []);
+    },[]); // I don't put match because refresh the page when i select cast, crew, details or genre
+
+    useEffect(() => {
+        // cleanState();
+        getMoviePromise( match.params.id ).then(
+            result => {
+                if( registersauth ){
+                    setItemAuth( registersauth.find( regist => regist.id === result.id && regist.name === result.title ) );
+                }
+            }
+        ).catch( error => setNotFound( true ) );
+        // eslint-disable-next-line
+    }, [ registersauth ]);
+    
+    if ( !itemselected && !loading ) return <NotFoundComponent />
 
     return (
         <div style = { background_path }>
@@ -85,8 +113,6 @@ const FilmPage = ({ match }) => {
                         <div className = "body-item">
                             {
                                 loading ? <Loading /> :
-                                itemselected ? 
-                                (
                                     <Fragment>
                                         <Image 
                                             // para evitar el error de CORS del canvas
@@ -119,17 +145,11 @@ const FilmPage = ({ match }) => {
                                                 type = "film"
                                                 match = { match.params.option }
                                             />
+                                        <Log 
+                                            itemType = "movie"
+                                            name = { itemselected.title } 
+                                        />
                                     </Fragment>
-                                )
-                                : <p style = {{ height: '100vh' }}>Sorry, we can’t find the page you’ve requested.</p>
-                            }
-                            {
-                                itemselected ?
-                                   <Log 
-                                        itemType = "movie"
-                                        name = { itemselected.title } 
-                                    />
-                                :null
                             }    
                         </div>
                     </ItemContainer>

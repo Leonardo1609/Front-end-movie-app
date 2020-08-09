@@ -32,7 +32,7 @@ const SliderItems = ({ items, title, url, score, index, regist }) => {
 
                     items.map( ( item, i ) => (
                         <Card
-                            key = { item.id }
+                            key = { i }
                             item = { item }
                             score = { item.score && score ? item.score : null }
                             index = { index ? i + 1 : null }

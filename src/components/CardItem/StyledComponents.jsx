@@ -55,7 +55,7 @@ export const CardContainer = styled.div`
         color: #fff;
         text-decoration: none;
         width: 100%;
-        height: 100%;
+        min-height: 100%;
     
         span{
             max-width: 150px;

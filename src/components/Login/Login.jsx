@@ -151,15 +151,15 @@ const Login = () => {
             <i className="fas fa-times"></i>
         </button>
         <div>
-            <label htmlFor = "user">
-                User
+            <label htmlFor = "email">
+                Email
             </label>
             <input 
                 type="email" 
                 name="email"
                 value = { email } 
                 onChange = { onChange }
-                id="user"
+                id="email"
                 />
         </div>
         <div>
