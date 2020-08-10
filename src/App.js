@@ -24,6 +24,8 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import NotFoundState from './context/NotFound/notfoundState';
 import AlertState from './context/Alert/alertState';
 import AlertComponent from './components/Alert/AlertComponent';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
+import ResetPassword from './components/ResetPassword/ResetPassword';
 
 function App() {
 
@@ -46,8 +48,10 @@ function App() {
                       <Header/>
                       <Switch>
                         <Route exact path = '/' component = { Homepage }/> 
+                        <Route exact path = '/reset-password/:token' component = { ResetPassword }/> 
                         <PrivateRoute exact path = '/settings' component = { ModifyProfile }/> 
                         <Route exact path = '/profile/:username' component = { Profile }/>  
+                        <Route exact path = '/forgot-password' component = { ForgotPassword }/>  
                         <Route exact path = '/profile/:username/:option' component = { Profile }/>  
                         <Route exact path = '/profile/:username/:type/:name/:id' component = { RegistPage }/>  
                         <Route exact path = '/create-account' component = { CreateAccount } /> 

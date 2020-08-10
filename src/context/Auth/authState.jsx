@@ -298,6 +298,46 @@ const AuthState = props => {
         }
     }
 
+    const sendEmailToResetPassword = async ( email ) => {
+        try {
+            const result = await clientAxios.post('/api/auth/reset-password', { email } );
+
+            const alert = {
+                classes: 'success',
+                message: result.data.msg
+            }
+            setAlert( alert );
+
+        } catch (error) {
+            console.log( error.response );
+            const alert = {
+                classes: 'error',
+                message: error.response.data.msg
+            }
+            setAlert( alert );
+
+        }
+    }
+
+    const resetPassword = async ( newPassword, token ) => {
+        try {
+            const result = await clientAxios.post(`/api/auth/reset-password/${ token }`, { newPassword } );
+            const alert = {
+                classes: 'success',
+                message: result.data.msg
+            }
+            setAlert( alert );
+
+            return 'updated';
+        } catch (error) {
+            console.log( error.response );
+            const alert = {
+                classes: 'error',
+                message: error.response.data.msg
+            }
+            setAlert( alert );
+        }
+    }
     const signOut = () => {
         
         dispatch({
@@ -335,7 +375,9 @@ const AuthState = props => {
             postComment,
             modifyComment,
             deleteComment,
-            changePassword
+            changePassword,
+            sendEmailToResetPassword,
+            resetPassword
         }}>
             { props.children }
         </AuthContext.Provider>

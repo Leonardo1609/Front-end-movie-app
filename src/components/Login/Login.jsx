@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import styled from '@emotion/styled';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import './Login.css';
 import LoginContext from '../../context/Login/loginContext';
 import AuthContext from '../../context/Auth/authContext';
@@ -96,6 +96,15 @@ const FormLogin = styled.form`
             font-size: .9rem;
             cursor: pointer;
         }
+
+        a{
+            text-decoration: none;
+        }
+        @media ( min-width: 768px ){
+            a{
+                margin-top: 15px;
+            }
+        }
     }
 `;
 
@@ -173,6 +182,9 @@ const Login = () => {
                 onChange = { onChange }
                 id="password"
              />
+        </div>
+        <div>
+            <Link to="/forgot-password">Forgot Password?</Link>
         </div>
         <div>
             <button type = "submit">SIGN IN</button>

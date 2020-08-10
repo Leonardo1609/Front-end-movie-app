@@ -56,7 +56,7 @@ const ModalChangePassword = () => {
         
         if( newPassword.length < 6 || confirmPassword.length < 6 ){
             const alert ={ 
-                message: 'Min. 6 characteres',
+                message: 'Min. 6 characters',
                 classes: 'error'
             }
             setAlert( alert );
